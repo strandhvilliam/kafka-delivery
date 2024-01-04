@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: order-management
+  config:
+    import: "optional:configserver:http://localhost:48080"
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/orders
+    username: order_management_user
+    password: order_management_password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        ddl-auto: update
+      generate-ddl: true
+      show-sql: true
