@@ -13,7 +13,20 @@ services:
       - "3306:3306"
     volumes:
       - .order_management-data:/var/lib/mysql
-
+  product_catalog_db:
+    image: mysql:latest
+    container_name: product_catalog_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=product_catalog_db
+      - MYSQL_USER=product_catalog_user
+      - MYSQL_PASSWORD=product_catalog_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - .product_catalog-data:/var/lib/mysql
 volumes:
-  mysql-data:
+  order_management_db:
+    driver: local
+  product_catalog_db:
     driver: local

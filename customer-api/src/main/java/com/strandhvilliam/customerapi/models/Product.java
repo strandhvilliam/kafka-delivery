@@ -8,7 +8,7 @@ import lombok.ToString;
 public class Product {
   protected final String id;
   protected final String description;
-  protected final int cost;
+  protected final double cost;
 
   private Product(Builder builder) {
     this.id = builder.id;
@@ -19,7 +19,7 @@ public class Product {
   public static class Builder {
     private String id;
     private String description;
-    private int cost;
+    private double cost;
 
     public Builder setId(String id) {
       this.id = id;
@@ -31,7 +31,7 @@ public class Product {
       return this;
     }
 
-    public Builder setCost(int cost) {
+    public Builder setCost(double cost) {
       this.cost = cost;
       return this;
     }

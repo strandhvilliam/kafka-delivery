@@ -16,10 +16,6 @@ protobuf {
   protoc {
     artifact = 'com.google.protobuf:protoc:3.25.1'
   }
-  generatedFilesBaseDir = "$projectDir/src/generated"
-    clean {
-        delete generatedFilesBaseDir
-    }
     plugins {
         grpc {
             artifact = "io.grpc:protoc-gen-grpc-java:1.60.1"
@@ -66,6 +62,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
   runtimeOnly 'com.mysql:mysql-connector-j'
+
+  annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+  compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
