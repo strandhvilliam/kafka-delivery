@@ -1,13 +1,13 @@
 spring:
   application:
-    name: order-management
+    name: product_catalog
   config:
     import: "optional:configserver:http://localhost:48080"
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/order_management_db
-    username: order_management_user
-    password: order_management_password
+    url: jdbc:mysql://localhost:3306/product_catalog_db
+    username: product_catalog_user
+    password: product_catalog_password
   jpa:
     properties:
       hibernate:
