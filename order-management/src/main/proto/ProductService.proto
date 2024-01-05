@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package com.strandhvilliam.grpc;
+
+option java_package = "com.strandhvilliam.productcatalog.grpc";
+option java_outer_classname = "ProductProto";
+option java_multiple_files = true;
+
+service ProductService {
+  rpc GetProduct (ProductIdRequest) returns (ProductResponse);
+  rpc GetManyProducts (ManyProductIdRequest) returns (ListProductsResponse);
+}
+
+message ProductIdRequest {
+  string id = 1;
+}
+
+message ManyProductIdRequest {
+  repeated string ids = 1;
+}
+
+message ProductResponse {
+  string id = 1;
+  string description = 2;
+  double cost = 3;
+}
+
+message ListProductsResponse {
+  repeated ProductResponse products = 1;
+}

@@ -38,14 +38,15 @@ public class ProductCatalogService extends
   public void getManyProducts(ManyProductIdRequest req, StreamObserver<ListProductsResponse> responseObserver) {
     System.out.println("getManyProducts" + req.getIdsList());
     ListProductsResponse.Builder responseBuilder = ListProductsResponse.newBuilder();
-    productRepository.findAll().stream().filter(product -> req.getIdsList().contains(product.getId())).forEach(product -> {
-      ProductResponse response = ProductResponse.newBuilder()
-          .setId(product.getId())
-          .setDescription(product.getDescription())
-          .setCost(product.getCost())
-          .build();
-      responseBuilder.addProducts(response);
-    });
+    productRepository.findAll().stream().filter(product -> req.getIdsList().contains(product.getId()))
+        .forEach(product -> {
+          ProductResponse response = ProductResponse.newBuilder()
+              .setId(product.getId())
+              .setDescription(product.getDescription())
+              .setCost(product.getCost())
+              .build();
+          responseBuilder.addProducts(response);
+        });
     responseObserver.onNext(responseBuilder.build());
     responseObserver.onCompleted();
   }

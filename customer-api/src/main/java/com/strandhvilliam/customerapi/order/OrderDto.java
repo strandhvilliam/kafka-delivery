@@ -1,4 +1,4 @@
-package com.strandhvilliam.customerapi.dtos;
+package com.strandhvilliam.customerapi.order;
 
 import java.util.List;
 

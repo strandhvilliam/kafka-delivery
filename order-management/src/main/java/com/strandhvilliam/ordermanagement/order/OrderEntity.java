@@ -1,4 +1,4 @@
-package com.strandhvilliam.ordermanagement.entities;
+package com.strandhvilliam.ordermanagement.order;
 
 import java.util.List;
 

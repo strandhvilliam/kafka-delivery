@@ -1,16 +1,16 @@
-package com.strandhvilliam.customerapi.models;
+package com.strandhvilliam.ordermanagement.product;
 
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-public class Product {
+public class ProductModel {
   protected final String id;
   protected final String description;
   protected final double cost;
 
-  private Product(Builder builder) {
+  private ProductModel(Builder builder) {
     this.id = builder.id;
     this.description = builder.description;
     this.cost = builder.cost;
@@ -36,8 +36,8 @@ public class Product {
       return this;
     }
 
-    public Product build() {
-      return new Product(this);
+    public ProductModel build() {
+      return new ProductModel(this);
     }
   }
 

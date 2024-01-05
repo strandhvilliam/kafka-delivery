@@ -4,10 +4,3 @@ spring:
   config:
     import: "optional:configserver:http://localhost:48080"
 
-grpc:
-  client:
-    product_catalog:
-      address: "static://127.0.0.1:6565"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext

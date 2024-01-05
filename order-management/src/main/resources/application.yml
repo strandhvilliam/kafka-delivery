@@ -15,3 +15,12 @@ spring:
         ddl-auto: update
       generate-ddl: true
       show-sql: true
+grpc:
+  client:
+    product_catalog:
+      address: "static://127.0.0.1:6565"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+  server:
+    port: 6566

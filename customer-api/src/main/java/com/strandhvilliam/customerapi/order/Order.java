@@ -1,9 +1,10 @@
-package com.strandhvilliam.customerapi.models;
+package com.strandhvilliam.customerapi.order;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.strandhvilliam.customerapi.product.ProductModel;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -12,7 +13,7 @@ import lombok.ToString;
 public class Order {
   protected final String id;
   protected final LocalDateTime date;
-  protected final List<Product> products;
+  protected final List<ProductModel> products;
   protected final String userId;
 
   private Order(Builder builder) {
@@ -26,7 +27,7 @@ public class Order {
     private String id;
     private LocalDateTime date;
     private String userId;
-    private List<Product> products = new ArrayList<>();
+    private final List<ProductModel> products = new ArrayList<>();
 
     public Builder setId(String id) {
       this.id = id;
@@ -43,7 +44,7 @@ public class Order {
       return this;
     }
 
-    public Builder addProducts(List<Product> items) {
+    public Builder addProducts(List<ProductModel> items) {
       this.products.addAll(items);
       return this;
     }
