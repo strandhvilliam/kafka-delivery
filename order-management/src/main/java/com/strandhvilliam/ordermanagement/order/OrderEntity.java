@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "orders")
 public class OrderEntity {
 
@@ -26,7 +28,10 @@ public class OrderEntity {
   private String status;
   @Column(name = "user_id")
   private String userId;
+  @Column(name = "restaurant_id")
+  private String restaurantId;
 
   @OneToMany(mappedBy = "order")
   private List<OrderItemEntity> items;
+
 }

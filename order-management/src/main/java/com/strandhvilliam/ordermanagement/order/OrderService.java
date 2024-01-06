@@ -4,7 +4,7 @@ import com.strandhvilliam.ordermanagement.grpc.CreateOrderRequest;
 import com.strandhvilliam.ordermanagement.grpc.OrderItem;
 import com.strandhvilliam.ordermanagement.grpc.OrderManagementServiceGrpc;
 import com.strandhvilliam.ordermanagement.grpc.OrderResponse;
-import com.strandhvilliam.ordermanagement.product.ProductModel;
+import com.strandhvilliam.productcatalog.grpc.ListProductsResponse;
 import io.grpc.stub.StreamObserver;
 
 import com.strandhvilliam.ordermanagement.product.ProductClient;
@@ -36,7 +36,8 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
       StreamObserver<OrderResponse> responseObserver) {
 
     var products = productClient.getManyProducts(req.getProductIdsList());
-    var order = buildEntity(req, buildOrderItems(products));
+    var restaurantId = products.getProductsList().get(0).getRestaurantId();
+    var order = buildEntity(req, buildOrderItems(products), restaurantId);
 
     orderProducer.send(order);
     orderRepository.save(order);
@@ -45,25 +46,26 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
     responseObserver.onCompleted();
   }
 
-  private List<OrderItemEntity> buildOrderItems(List<ProductModel> products) {
-    return products.stream().map(product -> {
-      var orderItem = new OrderItemEntity();
-      orderItem.setId(UUID.randomUUID().toString());
-      orderItem.setProductId(product.getId());
-      orderItem.setDescription(product.getDescription());
-      orderItem.setCost(product.getCost());
-      return orderItem;
-    }).toList();
+  private List<OrderItemEntity> buildOrderItems(ListProductsResponse products) {
+    return products.getProductsList().stream().map(product -> new OrderItemEntity
+        .OrderItemEntityBuilder()
+        .id(UUID.randomUUID().toString())
+        .productId(product.getId())
+        .description(product.getDescription())
+        .cost(product.getCost())
+        .build()).toList();
   }
 
-  private OrderEntity buildEntity(CreateOrderRequest req, List<OrderItemEntity> orderItems) {
-    var order = new OrderEntity();
-    order.setId(UUID.randomUUID().toString());
-    order.setDate(LocalDateTime.now().toString());
-    order.setStatus(ORDER_STATUS_PROCESSING);
-    order.setUserId(req.getUserId());
-    order.setItems(orderItems);
-    return order;
+  private OrderEntity buildEntity(CreateOrderRequest req, List<OrderItemEntity> orderItems, String restaurantId) {
+    return new OrderEntity
+        .OrderEntityBuilder()
+        .id(UUID.randomUUID().toString())
+        .date(LocalDateTime.now().toString())
+        .status(ORDER_STATUS_PROCESSING)
+        .restaurantId(restaurantId)
+        .userId(req.getUserId())
+        .items(orderItems)
+        .build();
   }
 
 

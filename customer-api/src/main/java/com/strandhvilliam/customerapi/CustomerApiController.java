@@ -1,11 +1,11 @@
 package com.strandhvilliam.customerapi;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.strandhvilliam.customerapi.order.OrderDto;
-import com.strandhvilliam.customerapi.order.Order;
 
 @RestController
 public class CustomerApiController {
@@ -16,10 +16,10 @@ public class CustomerApiController {
     this.customerApiService = customerApiService;
   }
 
-  @PostMapping("/orders")
-  public Order createOrder(@RequestBody OrderDto dto) {
-    // authenticate user
-    return customerApiService.createOrder(dto);
+  @PostMapping("/order")
+  public void createOrder(@RequestBody @Valid OrderDto dto) {
+    customerApiService.createOrder(dto);
   }
+
 
 }

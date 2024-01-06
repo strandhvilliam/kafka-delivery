@@ -51,7 +51,6 @@ dependencies {
     implementation 'io.grpc:grpc-protobuf'
     implementation 'io.grpc:grpc-stub'
 
-
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
@@ -62,6 +61,7 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-gradle-plugin:0.9.4'
     implementation 'io.confluent:kafka-protobuf-serializer:7.5.1'
 
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.1'
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
 

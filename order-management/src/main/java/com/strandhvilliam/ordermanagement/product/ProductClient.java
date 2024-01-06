@@ -10,17 +10,11 @@ import java.util.List;
 public class ProductClient {
 
   @GrpcClient("product_catalog")
-  ProductServiceGrpc.ProductServiceBlockingStub productServiceStub;
+  private ProductServiceGrpc.ProductServiceBlockingStub productServiceStub;
 
-  public List<ProductModel> getManyProducts(List<String> ids) {
+  public ListProductsResponse getManyProducts(List<String> ids) {
     ManyProductIdRequest request = ManyProductIdRequest.newBuilder().addAllIds(ids).build();
-    ListProductsResponse response = productServiceStub.getManyProducts(request);
-    return response.getProductsList().stream().map(productResponse -> new ProductModel.Builder()
-        .setId(productResponse.getId())
-        .setDescription(productResponse.getDescription())
-        .setCost(productResponse.getCost())
-        .build())
-        .toList();
+    return productServiceStub.getManyProducts(request);
   }
 
 }

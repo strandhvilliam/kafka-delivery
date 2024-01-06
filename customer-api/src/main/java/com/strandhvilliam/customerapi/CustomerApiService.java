@@ -1,32 +1,25 @@
 package com.strandhvilliam.customerapi;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.strandhvilliam.customerapi.order.OrderDto;
-import com.strandhvilliam.customerapi.order.Order;
-import com.strandhvilliam.customerapi.product.ProductClientService;
+import com.strandhvilliam.customerapi.order.OrderManagementClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerApiService {
+  private final Logger log = LoggerFactory.getLogger(CustomerApiService.class.getSimpleName());
+  private final OrderManagementClient orderManagementClient;
 
-//  @Autowired
-//  private ProductClientService productClientService;
-//
-//  public Order createOrder(OrderDto dto) {
-//    var products = productClientService.getManyProducts(dto.products());
-//    String uuid = UUID.randomUUID().toString();
-//    LocalDateTime date = LocalDateTime.now();
-//
-//    return new Order.Builder()
-//        .setId(uuid)
-//        .setDate(date)
-//        .setUserId(dto.userId())
-//        .addProducts(products)
-//        .build();
-//  }
+  public CustomerApiService(OrderManagementClient orderManagementClient) {
+    this.orderManagementClient = orderManagementClient;
+  }
+
+  public void createOrder(OrderDto dto) {
+    var response = orderManagementClient.createOrder(dto);
+    log.info("Order created with id: {}", response.getId());
+  }
+
 
 }

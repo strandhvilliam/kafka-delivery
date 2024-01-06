@@ -32,13 +32,15 @@ message ListByCategoryRequest {
 
 message CreateProductRequest {
   string description = 1;
-  double cost = 2;
+  string restaurantId = 2;
+  double cost = 3;
 }
 
 message ProductResponse {
   string id = 1;
   string description = 2;
-  double cost = 3;
+  string restaurantId = 3;
+  double cost = 4;
 }
 
 message ListProductsResponse {

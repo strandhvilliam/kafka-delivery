@@ -1,6 +1,13 @@
 spring:
   application:
-    name: customer_api
+    name: customer-api
   config:
     import: "optional:configserver:http://localhost:48080"
 
+grpc:
+  client:
+    order_management:
+      address: "static://127.0.0.1:6566"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext

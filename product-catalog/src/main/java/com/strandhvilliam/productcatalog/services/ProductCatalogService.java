@@ -23,14 +23,7 @@ public class ProductCatalogService extends
 
     productRepository.findById(req.getId())
         .ifPresentOrElse(
-            product -> {
-              ProductResponse response = ProductResponse.newBuilder()
-                  .setId(product.getId())
-                  .setDescription(product.getDescription())
-                  .setCost(product.getCost())
-                  .build();
-              responseObserver.onNext(response);
-            },
+            product -> responseObserver.onNext(buildProductResponse(product)),
             responseObserver::onCompleted);
   }
 
@@ -39,14 +32,8 @@ public class ProductCatalogService extends
     System.out.println("getManyProducts" + req.getIdsList());
     ListProductsResponse.Builder responseBuilder = ListProductsResponse.newBuilder();
     productRepository.findAll().stream().filter(product -> req.getIdsList().contains(product.getId()))
-        .forEach(product -> {
-          ProductResponse response = ProductResponse.newBuilder()
-              .setId(product.getId())
-              .setDescription(product.getDescription())
-              .setCost(product.getCost())
-              .build();
-          responseBuilder.addProducts(response);
-        });
+        .forEach(product ->
+            responseBuilder.addProducts(buildProductResponse(product)));
     responseObserver.onNext(responseBuilder.build());
     responseObserver.onCompleted();
   }
@@ -59,13 +46,17 @@ public class ProductCatalogService extends
     product.setDescription(req.getDescription());
     product.setCost(req.getCost());
     productRepository.save(product);
-    ProductResponse response = ProductResponse.newBuilder()
+    responseObserver.onNext(buildProductResponse(product));
+    responseObserver.onCompleted();
+  }
+
+  private ProductResponse buildProductResponse(ProductEntity product) {
+    return ProductResponse.newBuilder()
         .setId(product.getId())
         .setDescription(product.getDescription())
+        .setRestaurantId(product.getRestaurantId())
         .setCost(product.getCost())
         .build();
-    responseObserver.onNext(response);
-    responseObserver.onCompleted();
   }
 
 }

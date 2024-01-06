@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package com.strandhvilliam.events;
 
 option java_package = "com.strandhvilliam.events.proto";
@@ -11,9 +10,9 @@ message OrderEvent {
   string date = 2;
   string userId = 3;
   string status = 4;
-  repeated OrderEventItem items = 5;
+  repeated .com.strandhvilliam.events.OrderEventItem items = 5;
+  string restaurantId = 6;
 }
-
 message OrderEventItem {
   string id = 1;
   string productId = 2;

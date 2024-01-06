@@ -22,7 +22,8 @@ message ManyProductIdRequest {
 message ProductResponse {
   string id = 1;
   string description = 2;
-  double cost = 3;
+  string restaurantId = 3;
+  double cost = 4;
 }
 
 message ListProductsResponse {
