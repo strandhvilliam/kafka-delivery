@@ -10,6 +10,8 @@ import io.grpc.stub.StreamObserver;
 import com.strandhvilliam.ordermanagement.product.ProductClient;
 
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class OrderService extends OrderManagementServiceGrpc.OrderManagementServiceImplBase {
 
   private static final String ORDER_STATUS_PROCESSING = "PROCESSING";
+  private final Logger log = LoggerFactory.getLogger(OrderService.class.getSimpleName());
 
   private final ProductClient productClient;
   private final OrderProducer orderProducer;
@@ -36,11 +39,13 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
       StreamObserver<OrderResponse> responseObserver) {
 
     var products = productClient.getManyProducts(req.getProductIdsList());
-    var restaurantId = products.getProductsList().get(0).getRestaurantId();
+    // TODO: check if products are from the same restaurant
+    var restaurantId = products.getProductsList()
+        .isEmpty() ? "" : products.getProductsList().get(0).getRestaurantId();
     var order = buildEntity(req, buildOrderItems(products), restaurantId);
 
-    orderProducer.send(order);
     orderRepository.save(order);
+    orderProducer.send(order);
 
     responseObserver.onNext(buildResponse(order));
     responseObserver.onCompleted();
@@ -64,7 +69,7 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
         .status(ORDER_STATUS_PROCESSING)
         .restaurantId(restaurantId)
         .userId(req.getUserId())
-        .items(orderItems)
+        .items(orderItems == null ? List.of() : orderItems)
         .build();
   }
 
@@ -74,12 +79,15 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
         .setId(order.getId())
         .setStatus(order.getStatus())
         .setDate(order.getDate())
-        .addAllItems(order.getItems().stream().map(orderItem -> OrderItem.newBuilder()
-            .setId(orderItem.getId())
-            .setProductId(orderItem.getProductId())
-            .setDescription(orderItem.getDescription())
-            .setCost(orderItem.getCost())
-            .build()).toList())
+        .addAllItems(order.getItems() == null
+            ? List.of()
+            : order.getItems().stream()
+            .map(orderItem -> OrderItem.newBuilder()
+                .setId(orderItem.getId())
+                .setProductId(orderItem.getProductId())
+                .setDescription(orderItem.getDescription())
+                .setCost(orderItem.getCost())
+                .build()).toList())
         .build();
   }
 }

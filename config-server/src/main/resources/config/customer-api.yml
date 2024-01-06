@@ -5,3 +5,13 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+
+grpc:
+  server:
+    port: 38081
+  client:
+    order_management:
+      address: "static://127.0.0.1:6566"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext

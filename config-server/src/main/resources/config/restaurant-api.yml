@@ -1,0 +1,12 @@
+server:
+  port: 48083
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+# Eventually make api gateways only clients not server
+grpc:
+  server:
+    port: 38083

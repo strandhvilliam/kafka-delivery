@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: restaurant-api
+  config:
+    import: "optional:configserver:http://localhost:48080"
+

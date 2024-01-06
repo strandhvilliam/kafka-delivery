@@ -6,28 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class OrderProducer {
 
-  @Autowired
-  private KafkaTemplate<String, OrderEvent> kafkaTemplate;
+  private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
-  public void send(OrderEntity orderEntity) {
+  public OrderProducer(KafkaTemplate<String, OrderEvent> kafkaTemplate) {
+    this.kafkaTemplate = kafkaTemplate;
+  }
+
+  public void send(OrderEntity entity) {
     var orderEvent = OrderEvent.newBuilder()
-        .setId(orderEntity.getId())
-        .setDate(orderEntity.getDate())
-        .setStatus(orderEntity.getStatus())
-        .setUserId(orderEntity.getUserId());
+        .setId(entity.getId())
+        .setDate(entity.getDate())
+        .setRestaurantId(entity.getRestaurantId())
+        .setStatus(entity.getStatus())
+        .setUserId(entity.getUserId())
+        .addAllItems(entity.getItems() == null ? List.of() :
+            entity.getItems().stream().map(item -> OrderEventItem.newBuilder()
+                    .setId(item.getId())
+                    .setProductId(item.getProductId())
+                    .setDescription(item.getDescription())
+                    .setCost(item.getCost())
+                    .build())
+                .toList())
+        .build();
 
-    if (orderEntity.getItems() != null) {
-      orderEvent.addAllItems(orderEntity.getItems().stream().map(item -> OrderEventItem.newBuilder()
-          .setId(item.getId())
-          .setProductId(item.getProductId())
-          .setDescription(item.getDescription())
-          .setCost(item.getCost())
-          .build()).toList());
-    }
-    kafkaTemplate.send("order_created_dev", orderEvent.build());
+    kafkaTemplate.send("order_created_dev", orderEvent);
   }
 
 

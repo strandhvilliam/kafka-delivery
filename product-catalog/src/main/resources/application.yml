@@ -1,21 +1,5 @@
 spring:
   application:
-    name: product_catalog
+    name: product-catalog
   config:
     import: "optional:configserver:http://localhost:48080"
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/product_catalog_db
-    username: product_catalog_user
-    password: product_catalog_password
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        ddl-auto: update
-      generate-ddl: true
-      show-sql: true
-
-grpc:
-  server:
-    port: 6565
