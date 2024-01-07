@@ -25,6 +25,18 @@ services:
       - "3307:3306"
     volumes:
       - .product_catalog-data:/var/lib/mysql
+  driver_availability_db:
+    image: mysql:latest
+    container_name: driver_availability_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=driver_availability_db
+      - MYSQL_USER=driver_availability_user
+      - MYSQL_PASSWORD=driver_availability_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - .driver_availability-data:/var/lib/mysql
 volumes:
   order_management_db:
     driver: local

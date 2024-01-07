@@ -21,9 +21,9 @@ spring:
 grpc:
   client:
     product_catalog:
-      address: "static://127.0.0.1:6565"
+      address: "static://127.0.0.1:38088"
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext
   server:
-    port: 6566
+    port: 38089

@@ -2,7 +2,6 @@ package com.strandhvilliam.ordermanagement.order;
 
 import com.strandhvilliam.events.proto.OrderEvent;
 import com.strandhvilliam.events.proto.OrderEventItem;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
