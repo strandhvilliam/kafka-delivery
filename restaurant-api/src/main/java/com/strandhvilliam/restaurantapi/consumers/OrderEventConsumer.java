@@ -12,6 +12,7 @@ public class OrderEventConsumer {
 
   @KafkaListener(topics = "order_created_dev", groupId = "restaurant-api-group")
   public void consume(String message) {
+
     logger.info(String.format("#### -> Consumed message -> %s", message));
   }
 

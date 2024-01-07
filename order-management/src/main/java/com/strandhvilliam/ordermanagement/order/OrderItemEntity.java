@@ -1,14 +1,13 @@
 package com.strandhvilliam.ordermanagement.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "order_items")
@@ -24,8 +23,9 @@ public class OrderItemEntity {
   @Column(name = "cost")
   private double cost;
 
-  @ManyToOne
-  @JoinColumn(name = "order_id", nullable = false)
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "order_id")
+  @JsonIgnore
   private OrderEntity order;
 
 }

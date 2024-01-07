@@ -42,7 +42,9 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
     // TODO: check if products are from the same restaurant
     var restaurantId = products.getProductsList()
         .isEmpty() ? "" : products.getProductsList().get(0).getRestaurantId();
-    var order = buildEntity(req, buildOrderItems(products), restaurantId);
+    var order = buildEntity(req, restaurantId);
+    var orderItems = buildOrderItems(products, order);
+    order.setItems(orderItems);
 
     orderRepository.save(order);
     orderProducer.send(order);
@@ -51,17 +53,18 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
     responseObserver.onCompleted();
   }
 
-  private List<OrderItemEntity> buildOrderItems(ListProductsResponse products) {
+  private List<OrderItemEntity> buildOrderItems(ListProductsResponse products, OrderEntity order) {
     return products.getProductsList().stream().map(product -> new OrderItemEntity
         .OrderItemEntityBuilder()
         .id(UUID.randomUUID().toString())
         .productId(product.getId())
         .description(product.getDescription())
+        .order(order)
         .cost(product.getCost())
         .build()).toList();
   }
 
-  private OrderEntity buildEntity(CreateOrderRequest req, List<OrderItemEntity> orderItems, String restaurantId) {
+  private OrderEntity buildEntity(CreateOrderRequest req, String restaurantId) {
     return new OrderEntity
         .OrderEntityBuilder()
         .id(UUID.randomUUID().toString())
@@ -69,7 +72,6 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
         .status(ORDER_STATUS_PROCESSING)
         .restaurantId(restaurantId)
         .userId(req.getUserId())
-        .items(orderItems == null ? List.of() : orderItems)
         .build();
   }
 

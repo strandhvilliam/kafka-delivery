@@ -2,11 +2,7 @@ package com.strandhvilliam.ordermanagement.order;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +27,7 @@ public class OrderEntity {
   @Column(name = "restaurant_id")
   private String restaurantId;
 
-  @OneToMany(mappedBy = "order")
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderItemEntity> items;
 
 }

@@ -11,7 +11,7 @@ grpc:
     port: 38081
   client:
     order_management:
-      address: "static://127.0.0.1:6566"
+      address: "static://127.0.0.1:38089"
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext
