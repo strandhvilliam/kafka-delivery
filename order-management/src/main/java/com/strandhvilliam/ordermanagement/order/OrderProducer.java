@@ -9,6 +9,7 @@ import java.util.List;
 
 @Component
 public class OrderProducer {
+  private static final String TOPIC = "order_created_dev";
 
   private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
@@ -33,7 +34,7 @@ public class OrderProducer {
                 .toList())
         .build();
 
-    kafkaTemplate.send("order_created_dev", orderEvent);
+    kafkaTemplate.send(TOPIC, orderEvent);
   }
 
 
