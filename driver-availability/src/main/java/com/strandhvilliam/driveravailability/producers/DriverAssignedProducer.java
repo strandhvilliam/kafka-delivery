@@ -3,6 +3,8 @@ package com.strandhvilliam.driveravailability.producers;
 import com.strandhvilliam.driveravailability.entities.JobEntity;
 import com.strandhvilliam.events.proto.Coordinates;
 import com.strandhvilliam.events.proto.JobEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class DriverAssignedProducer {
   private static final String TOPIC = "driver_assigned_dev";
 
+  private final Logger logger = LoggerFactory.getLogger(DriverAssignedProducer.class.getSimpleName());
   private final KafkaTemplate<String, JobEvent> kafkaTemplate;
 
   public DriverAssignedProducer(KafkaTemplate<String, JobEvent> kafkaTemplate) {
@@ -33,6 +36,7 @@ public class DriverAssignedProducer {
             .build())
         .build();
 
+    logger.info("Producing job event: {}", jobEvent.getId());
     kafkaTemplate.send(TOPIC, jobEvent);
   }
 

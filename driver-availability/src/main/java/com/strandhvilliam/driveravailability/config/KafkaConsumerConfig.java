@@ -2,6 +2,7 @@ package com.strandhvilliam.driveravailability.config;
 
 
 import com.strandhvilliam.events.proto.OrderEvent;
+import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializerConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +24,9 @@ public class KafkaConsumerConfig {
     config.put("schema.registry.url", "http://localhost:8081");
     config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
         "org.apache.kafka.common.serialization.StringDeserializer");
-    config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-        "io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer");
+    config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer");
+    config.put(KafkaProtobufDeserializerConfig.SPECIFIC_PROTOBUF_VALUE_TYPE, OrderEvent.class.getName());
+    config.put(KafkaProtobufDeserializerConfig.DERIVE_TYPE_CONFIG, true);
     return new DefaultKafkaConsumerFactory<>(config);
   }
 

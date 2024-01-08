@@ -1,0 +1,11 @@
+server:
+  port: 48082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:48761/eureka/
+
+grpc:
+  server:
+    port: 38082

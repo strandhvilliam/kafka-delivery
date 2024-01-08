@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "drivers")
 public class DriverEntity {
 
   @Id()
@@ -23,7 +24,7 @@ public class DriverEntity {
   @Column(name = "phone")
   private String phone;
 
-  @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<JobEntity> jobs;
 
 

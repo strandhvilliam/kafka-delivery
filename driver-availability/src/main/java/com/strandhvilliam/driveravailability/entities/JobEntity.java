@@ -38,7 +38,7 @@ public class JobEntity {
   })
   private Coordinates origin;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "driver_id")
   @JsonIgnore
   private DriverEntity driver;
