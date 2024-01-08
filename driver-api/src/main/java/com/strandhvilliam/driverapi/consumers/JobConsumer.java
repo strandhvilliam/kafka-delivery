@@ -1,5 +1,6 @@
 package com.strandhvilliam.driverapi.consumers;
 
+import com.strandhvilliam.driverapi.services.DriverApiService;
 import com.strandhvilliam.events.proto.JobEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -14,8 +15,15 @@ import static com.strandhvilliam.driverapi.config.JobConsumerConfig.TOPIC;
 public class JobConsumer {
   private final Logger logger = LoggerFactory.getLogger(JobConsumer.class.getSimpleName());
 
+  private final DriverApiService driverApiService;
+
+  public JobConsumer(DriverApiService driverApiService) {
+    this.driverApiService = driverApiService;
+  }
+
   @KafkaListener(topics = TOPIC, groupId = GROUP_ID)
   public void consume(ConsumerRecord<String, JobEvent> event) {
     logger.info(String.format("#### -> Consumed message -> %s", event.value()));
+    driverApiService.sendEvent(event.value().getDriverId(), event.value().getOrderId());
   }
 }

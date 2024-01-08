@@ -9,3 +9,10 @@ eureka:
 grpc:
   server:
     port: 38082
+  client:
+    driver-availability:
+      address: "static://127.0.0.1:38086"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+

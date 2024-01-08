@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package com.strandhvilliam.grpc;
+
+option java_package = "com.strandhvilliam.driveravailability.grpc";
+option java_outer_classname = "DriverProto";
+option java_multiple_files = true;
+
+service DriverService {
+  rpc GetDriverById (DriverIdRequest) returns (DriverResponse);
+  rpc GetDriverByEmail (DriverEmailRequest) returns (DriverResponse);
+}
+
+message DriverIdRequest {
+  string id = 1;
+}
+
+message DriverEmailRequest {
+  string email = 1;
+}
+
+message DriverResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  repeated JobResponse jobs = 5;
+}
+
+message JobResponse {
+  string id = 1;
+  string timestamp = 2;
+  string driverId = 3;
+  string orderId = 4;
+  Coordinates destination = 5;
+  Coordinates origin = 6;
+}
+
+message Coordinates {
+  double latitude = 1;
+  double longitude = 2;
+}

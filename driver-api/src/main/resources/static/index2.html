@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring SSE Demo</title>
+</head>
+<body>
+<h1>Server-Sent Events (SSE) with Spring</h1>
+<div id="events"></div>
+
+<script>
+    const driverId = "122a6996-ae5f-11ee-b2a3-0242c0a8b004"
+    fetch(`http://localhost:48082/jobs?driverId=${driverId}`).then((res) => {
+        return res.json()
+    }).then((json) => {
+        console.log(json)
+        json.forEach((event) => {
+            const div = document.createElement("div");
+            div.textContent = `Event received: ${event}`;
+            document.getElementById("events").appendChild(div);
+        })
+    }).catch((err) => {
+        console.error(err)
+    })
+    const eventSource = new EventSource(`http://localhost:48082/sse?driverId=${driverId}`);
+
+    eventSource.onmessage = (event) => {
+        const div = document.createElement("div");
+        div.textContent = `Event received: ${event.data}`;
+        document.getElementById("events").appendChild(div);
+    };
+
+    eventSource.onerror = (error) => {
+        console.error("Error occurred:", error)
+        eventSource.close();
+    };
+</script>
+</body>
+</html>
