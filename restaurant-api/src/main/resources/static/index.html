@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring SSE Demo</title>
+</head>
+<body>
+<h1>RESTAURANT API SSE</h1>
+<div id="events"></div>
+
+<script>
+
+    // fetch(`http://localhost:48083/restaurants`).then((res) => {
+    //     return res.text()
+    // }).then((json) => {
+    //     console.log(json)
+    // }).catch((err) => {
+    //     console.error(err)
+    // })
+
+   const restaurantId = "res1"
+   fetch(`http://localhost:48083/orders/${restaurantId}`).then((res) => {
+       return res.text()
+   }).then((data) => {
+       console.log(data)
+       const div = document.createElement("div");
+         div.textContent = `Event received: ${data}`;
+            document.getElementById("events").appendChild(div);
+       // json.forEach((event) => {
+       //     const div = document.createElement("div");
+       //     div.textContent = `Event received: ${event}`;
+       //     document.getElementById("events").appendChild(div);
+       // })
+   }).catch((err) => {
+       console.error(err)
+   })
+   const eventSource = new EventSource(`http://localhost:48083/orders/sse/${restaurantId}`);
+
+   eventSource.onmessage = (event) => {
+       const div = document.createElement("div");
+       div.textContent = `Event received: ${event.data}`;
+       document.getElementById("events").appendChild(div);
+   };
+
+   eventSource.onerror = (error) => {
+       console.error("Error occurred:", error)
+       eventSource.close();
+   };
+</script>
+</body>
+</html>

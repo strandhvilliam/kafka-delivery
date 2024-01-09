@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderManagementClient {
 
+  private static final String ORDER_MANAGEMENT_CLIENT = "order-management";
+
   private final Logger log = LoggerFactory.getLogger(OrderManagementClient.class.getSimpleName());
 
-  @GrpcClient("order_management")
+  @GrpcClient(ORDER_MANAGEMENT_CLIENT)
   private OrderManagementServiceGrpc.OrderManagementServiceBlockingStub orderManagementServiceStub;
 
   public OrderResponse createOrder(OrderDto dto) {

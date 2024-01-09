@@ -20,7 +20,7 @@ spring:
     show-sql: true
 grpc:
   client:
-    product_catalog:
+    product-catalog:
       address: "static://127.0.0.1:38088"
       enableKeepAlive: true
       keepAliveWithoutCalls: true

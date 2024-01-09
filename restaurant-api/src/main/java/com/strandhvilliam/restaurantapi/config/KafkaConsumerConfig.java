@@ -2,6 +2,7 @@ package com.strandhvilliam.restaurantapi.config;
 
 
 import com.strandhvilliam.events.proto.OrderEvent;
+import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializerConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ public class KafkaConsumerConfig {
         "org.apache.kafka.common.serialization.StringDeserializer");
     config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
         "io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer");
+    config.put(KafkaProtobufDeserializerConfig.SPECIFIC_PROTOBUF_VALUE_TYPE, OrderEvent.class);
     return new DefaultKafkaConsumerFactory<>(config);
   }
 

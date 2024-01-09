@@ -10,7 +10,7 @@ grpc:
   server:
     port: 38081
   client:
-    order_management:
+    order-management:
       address: "static://127.0.0.1:38089"
       enableKeepAlive: true
       keepAliveWithoutCalls: true

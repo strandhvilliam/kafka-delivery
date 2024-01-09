@@ -38,6 +38,12 @@ public class JobEntity {
   })
   private Coordinates origin;
 
+  @Column(name = "completed")
+  private boolean completed;
+
+  @Column(name = "restaurant_id")
+  private String restaurantId;
+
   @ManyToOne
   @JoinColumn(name = "driver_id")
   @JsonIgnore

@@ -7,7 +7,7 @@ option java_outer_classname = "OrderProto";
 option java_multiple_files = true;
 
 service OrderManagementService {
-  rpc createOrder(CreateOrderRequest) returns (OrderResponse) {}
+  rpc CreateOrder(CreateOrderRequest) returns (OrderResponse) {}
 }
 
 message CreateOrderRequest {

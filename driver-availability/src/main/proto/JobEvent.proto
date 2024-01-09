@@ -12,6 +12,8 @@ message JobEvent {
   string orderId = 4;
   Coordinates destination = 5;
   Coordinates origin = 6;
+  string restaurantId = 7;
+  bool completed = 8;
 }
 
 message Coordinates {

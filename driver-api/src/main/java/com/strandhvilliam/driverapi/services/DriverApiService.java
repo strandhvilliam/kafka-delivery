@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 @Service
 public class DriverApiService {
 
-  @GrpcClient("driver-availability")
+  private static final String DRIVER_AVAILABILITY_CLIENT = "driver-availability";
+
+  @GrpcClient(DRIVER_AVAILABILITY_CLIENT)
   private DriverServiceGrpc.DriverServiceBlockingStub driverService;
 
   private final Logger logger = LoggerFactory.getLogger(DriverApiService.class.getSimpleName());

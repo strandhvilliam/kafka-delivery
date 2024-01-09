@@ -20,6 +20,12 @@ public class DriverAssignedProducer {
     this.kafkaTemplate = kafkaTemplate;
   }
 
+  /**
+   * Sends a job event to the kafka topic.
+   * No key is provided, so the message will be sent to a random partition as message order is not important.
+   *
+   * @param entity the job entity
+   */
   public void send(JobEntity entity) {
     var jobEvent = JobEvent.newBuilder()
         .setId(entity.getId())

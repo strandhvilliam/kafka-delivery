@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package com.strandhvilliam.grpc;
+
+option java_package = "com.strandhvilliam.ordermanagement.grpc";
+option java_outer_classname = "OrderProto";
+option java_multiple_files = true;
+
+service OrderManagementService {
+  rpc GetCustomerOrders(GetCustomerOrdersRequest) returns (ListOrderResponses) {}
+  rpc GetRestaurantOrders(GetRestaurantOrdersRequest) returns (ListOrderResponses) {}
+}
+
+message GetCustomerOrdersRequest {
+  string customerId = 1;
+}
+
+message GetRestaurantOrdersRequest {
+  string restaurantId = 1;
+}
+
+message OrderResponse {
+  string id = 1;
+  string date = 2;
+  string customerId = 3;
+  string restaurantId = 4;
+  string status = 5;
+  repeated OrderItem items = 6;
+}
+
+message OrderItem {
+  string id = 1;
+  string productId = 2;
+  string description = 3;
+  double cost = 4;
+}
+
+message ListOrderResponses {
+  repeated OrderResponse orders = 1;
+}
