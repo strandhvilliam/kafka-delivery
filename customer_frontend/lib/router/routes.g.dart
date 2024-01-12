@@ -18,7 +18,13 @@ RouteBase get $homeRoute => ShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/find',
-          factory: $ProfileRouteExtension._fromState,
+          factory: $FindRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'restaurant/:id',
+              factory: $RestaurantRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: '/orders',
@@ -26,7 +32,7 @@ RouteBase get $homeRoute => ShellRouteData.$route(
         ),
         GoRouteData.$route(
           path: '/profile',
-          factory: $FindRouteExtension._fromState,
+          factory: $ProfileRouteExtension._fromState,
         ),
       ],
     );
@@ -35,11 +41,30 @@ extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
 }
 
-extension $ProfileRouteExtension on ProfileRoute {
-  static ProfileRoute _fromState(GoRouterState state) => ProfileRoute();
+extension $FindRouteExtension on FindRoute {
+  static FindRoute _fromState(GoRouterState state) => FindRoute();
 
   String get location => GoRouteData.$location(
         '/find',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $RestaurantRouteExtension on RestaurantRoute {
+  static RestaurantRoute _fromState(GoRouterState state) => RestaurantRoute(
+        id: state.pathParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/find/restaurant/${Uri.encodeComponent(id)}',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -69,8 +94,8 @@ extension $OrdersRouteExtension on OrdersRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $FindRouteExtension on FindRoute {
-  static FindRoute _fromState(GoRouterState state) => FindRoute();
+extension $ProfileRouteExtension on ProfileRoute {
+  static ProfileRoute _fromState(GoRouterState state) => ProfileRoute();
 
   String get location => GoRouteData.$location(
         '/profile',

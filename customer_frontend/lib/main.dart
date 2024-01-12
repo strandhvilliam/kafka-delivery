@@ -35,7 +35,7 @@ class MainApp extends ConsumerWidget {
         // scaffoldBackgroundColor: backgroundColor,
         chipTheme: ChipThemeData(
           secondarySelectedColor: Colors.black87,
-          surfaceTintColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           secondaryLabelStyle: TextStyle(
             color: Colors.white,
           ),
@@ -43,7 +43,6 @@ class MainApp extends ConsumerWidget {
             side: const BorderSide(color: Colors.black87, width: 1.4),
             borderRadius: BorderRadius.circular(8),
           ),
-          selectedColor: Colors.red,
           labelStyle: const TextStyle(
             color: Colors.black,
           ),
@@ -53,23 +52,32 @@ class MainApp extends ConsumerWidget {
         searchViewTheme: SearchViewThemeData(
           // surfaceTintColor: backgroundColor,
           // backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.black87, width: 1.6),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          // backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           dividerColor: Colors.transparent,
           elevation: 1.0,
         ),
         searchBarTheme: SearchBarThemeData(
-          shape: MaterialStatePropertyAll(
-            StadiumBorder(
-              side: const BorderSide(color: Colors.black87, width: 1.6),
+          constraints: const BoxConstraints(
+            minHeight: 46,
+          ),
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              height: 1.0,
+              fontFamily: GoogleFonts.inter().fontFamily,
+              fontSize: 16.0,
             ),
           ),
-          // backgroundColor: MaterialStatePropertyAll(Colors.grey[100]),
           surfaceTintColor: MaterialStatePropertyAll(Colors.white),
-
           elevation: MaterialStatePropertyAll(0.0),
         ),
         navigationBarTheme: const NavigationBarThemeData(
           // backgroundColor: Colors.transparent,
-          // surfaceTintColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           overlayColor: MaterialStatePropertyAll(Colors.transparent),
           indicatorColor: Colors.transparent,
           elevation: 1.0,
@@ -77,17 +85,41 @@ class MainApp extends ConsumerWidget {
         appBarTheme: const AppBarTheme(
           elevation: 0.0,
           systemOverlayStyle: SystemUiOverlayStyle.dark,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
           // iconTheme: IconThemeData(color: Colors.black87),
           // actionsIconTheme: IconThemeData(color: Colors.black87),
         ),
+        // listTileTheme: const ListTileThemeData(
+        //   subtitleTextStyle: TextStyle(
+        //     color: Colors.black87,
+        //     fontSize: 12.0,
+        //   ),
+        //
+        //   // contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+        // ),
         textTheme: TextTheme(
+          bodySmall: TextStyle(
+            color: Colors.black87,
+            fontSize: 12.0,
+            fontFamily: GoogleFonts.inter().fontFamily,
+          ),
+          bodyMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 14.0,
+            fontFamily: GoogleFonts.inter().fontFamily,
+          ),
           titleSmall: TextStyle(
             letterSpacing: 1.0,
             fontSize: 24.0,
             fontFamily: GoogleFonts.abrilFatface().fontFamily,
+          ),
+          titleMedium: TextStyle(
+            letterSpacing: 1.0,
+            fontSize: 30.0,
+            fontFamily: GoogleFonts.abrilFatface().fontFamily,
+            color: Colors.white,
           ),
           titleLarge: TextStyle(
             // color: Colors.black87,

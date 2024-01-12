@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../screens/find_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/login_screen.dart';
+import '../screens/restaurant_screen.dart';
 
 part 'routes.g.dart';
 
@@ -13,9 +14,14 @@ final GlobalKey<NavigatorState> shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellKey');
 
 @TypedShellRoute<HomeRoute>(routes: <TypedGoRoute<GoRouteData>>[
-  TypedGoRoute<ProfileRoute>(path: '/find'),
+  TypedGoRoute<FindRoute>(
+    path: '/find',
+    routes: <TypedGoRoute<GoRouteData>>[
+      TypedGoRoute<RestaurantRoute>(path: 'restaurant/:id'),
+    ],
+  ),
   TypedGoRoute<OrdersRoute>(path: '/orders'),
-  TypedGoRoute<FindRoute>(path: '/profile')
+  TypedGoRoute<ProfileRoute>(path: '/profile')
 ])
 class HomeRoute extends ShellRouteData {
   const HomeRoute();
@@ -26,6 +32,17 @@ class HomeRoute extends ShellRouteData {
   Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
     return HomeScreen(child: Center(child: navigator));
   }
+}
+
+class RestaurantRoute extends GoRouteData {
+  RestaurantRoute({required this.id});
+  final String id;
+  @override
+  NoTransitionPage<void> buildPage(BuildContext context, GoRouterState state) =>
+      NoTransitionPage<void>(
+        key: state.pageKey,
+        child: RestaurantScreen(id: id),
+      );
 }
 
 class ProfileRoute extends GoRouteData {

@@ -35,62 +35,70 @@ class HomeScreen extends ConsumerWidget {
     final int selectedIndex = getSelectedIndex(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
+      extendBody: true,
       body: child,
-      bottomNavigationBar: NavigationBar(
-        height: 52.0,
-        selectedIndex: selectedIndex,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-        onDestinationSelected: (int index) =>
-            onDestinationSelected(context, index),
-        destinations: [
-          NavigationDestination(
-            icon: selectedIndex == 0
-                ? Text(
-                    String.fromCharCode(Icons.restaurant_rounded.codePoint),
-                    style: TextStyle(
-                      inherit: false,
-                      fontSize: 28.0,
-                      fontWeight: FontWeight.w800,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Colors.black87, width: 1.6),
+          ),
+        ),
+        child: NavigationBar(
+          height: 50.0,
+          selectedIndex: selectedIndex,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          onDestinationSelected: (int index) =>
+              onDestinationSelected(context, index),
+          destinations: [
+            NavigationDestination(
+              icon: selectedIndex == 0
+                  ? Text(
+                      String.fromCharCode(Icons.restaurant_rounded.codePoint),
+                      style: TextStyle(
+                        inherit: false,
+                        fontSize: 28.0,
+                        fontWeight: FontWeight.w800,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontFamily: Icons.restaurant_rounded.fontFamily,
+                      ),
+                    )
+                  : Icon(
+                      Icons.restaurant_outlined,
+                      size: 28.0,
                       color: Theme.of(context).colorScheme.primary,
-                      fontFamily: Icons.restaurant_rounded.fontFamily,
                     ),
-                  )
-                : Icon(
-                    Icons.restaurant_outlined,
-                    size: 28.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            label: 'Find',
-          ),
-          NavigationDestination(
-            icon: selectedIndex == 1
-                ? Icon(
-                    Icons.shopping_bag_rounded,
-                    size: 28.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  )
-                : Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 28.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            label: 'Orders',
-          ),
-          NavigationDestination(
-            icon: selectedIndex == 2
-                ? Icon(
-                    Icons.person_rounded,
-                    size: 28.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  )
-                : Icon(
-                    Icons.person_outline,
-                    size: 28.0,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            label: 'Profile',
-          ),
-        ],
+              label: 'Find',
+            ),
+            NavigationDestination(
+              icon: selectedIndex == 1
+                  ? Icon(
+                      Icons.shopping_bag_rounded,
+                      size: 28.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  : Icon(
+                      Icons.shopping_bag_outlined,
+                      size: 28.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              label: 'Orders',
+            ),
+            NavigationDestination(
+              icon: selectedIndex == 2
+                  ? Icon(
+                      Icons.person_rounded,
+                      size: 28.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  : Icon(
+                      Icons.person_outline,
+                      size: 28.0,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }
