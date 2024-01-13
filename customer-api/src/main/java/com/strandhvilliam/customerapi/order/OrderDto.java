@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class OrderDto {
     @NotEmpty
-    private String userId;
+    private String customerId;
     @NotEmpty
     private String restaurantId;
     @NotEmpty

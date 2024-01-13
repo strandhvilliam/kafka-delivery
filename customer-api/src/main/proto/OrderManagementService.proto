@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.strandhvilliam.grpc;
+package com.strandhvilliam.ordermanagement.grpc;
 
 option java_package = "com.strandhvilliam.ordermanagement.grpc";
 option java_outer_classname = "OrderProto";
@@ -11,8 +11,8 @@ service OrderManagementService {
 }
 
 message CreateOrderRequest {
-  string userId = 1;
-  repeated string productIds = 2;
+  string customerId = 1;
+  repeated string productIds = 3;
 }
 
 message OrderResponse {

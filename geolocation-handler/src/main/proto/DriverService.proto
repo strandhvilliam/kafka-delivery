@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package com.strandhvilliam.driveravailability.grpc;
+
+option java_package = "com.strandhvilliam.driveravailability.grpc";
+option java_outer_classname = "DriverProto";
+option java_multiple_files = true;
+
+service DriverService {
+  rpc GetJobByOrderId (OrderIdRequest) returns (JobResponse);
+}
+
+message OrderIdRequest {
+  string orderId = 1;
+}
+
+message JobResponse {
+  string id = 1;
+  string timestamp = 2;
+  string driverId = 3;
+  string orderId = 4;
+  string restaurantId = 5;
+  bool completed = 6;
+  Coordinates destination = 7;
+  Coordinates origin = 8;
+}
+
+message Coordinates {
+  double latitude = 1;
+  double longitude = 2;
+}

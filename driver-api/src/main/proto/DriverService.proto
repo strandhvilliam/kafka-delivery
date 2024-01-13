@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.strandhvilliam.grpc;
+package com.strandhvilliam.driveravailability.grpc;
 
 option java_package = "com.strandhvilliam.driveravailability.grpc";
 option java_outer_classname = "DriverProto";

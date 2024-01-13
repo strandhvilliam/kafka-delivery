@@ -1,7 +1,6 @@
 package com.strandhvilliam.driveravailability.config;
 
-import com.strandhvilliam.events.proto.JobEvent;
-import com.strandhvilliam.events.proto.OrderEvent;
+import com.strandhvilliam.jobevent.proto.JobEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -16,7 +15,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
   @Bean
-  public ProducerFactory<String, JobEvent> orderProducerFactory() {
+  public ProducerFactory<String, JobEvent> jobProducerFactory() {
     Map<String, Object> props = new HashMap<>();
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
@@ -28,6 +27,6 @@ public class KafkaProducerConfig {
 
   @Bean
   public KafkaTemplate<String, JobEvent> kafkaTemplate() {
-    return new KafkaTemplate<>(orderProducerFactory());
+    return new KafkaTemplate<>(jobProducerFactory());
   }
 }

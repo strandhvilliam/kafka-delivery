@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: geolocation-handler
+  config:
+    import: "optional:configserver:http://localhost:48080"

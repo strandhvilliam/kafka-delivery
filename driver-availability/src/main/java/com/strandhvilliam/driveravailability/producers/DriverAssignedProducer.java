@@ -1,8 +1,8 @@
 package com.strandhvilliam.driveravailability.producers;
 
 import com.strandhvilliam.driveravailability.entities.JobEntity;
-import com.strandhvilliam.events.proto.Coordinates;
-import com.strandhvilliam.events.proto.JobEvent;
+import com.strandhvilliam.jobevent.proto.Coordinates;
+import com.strandhvilliam.jobevent.proto.JobEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

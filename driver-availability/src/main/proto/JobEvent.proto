@@ -1,7 +1,7 @@
 syntax = "proto3";
-package com.strandhvilliam.events;
+package com.strandhvilliam.jobevent;
 
-option java_package = "com.strandhvilliam.events.proto";
+option java_package = "com.strandhvilliam.jobevent.proto";
 option java_outer_classname = "JobEventProto";
 option java_multiple_files = true;
 

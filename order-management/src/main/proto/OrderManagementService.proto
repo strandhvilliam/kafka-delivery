@@ -10,6 +10,12 @@ service OrderManagementService {
   rpc CreateOrder(CreateOrderRequest) returns (OrderResponse) {}
   rpc GetCustomerOrders(GetCustomerOrdersRequest) returns (ListOrderResponses) {}
   rpc GetRestaurantOrders(GetRestaurantOrdersRequest) returns (ListOrderResponses) {}
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (OrderResponse) {}
+}
+
+message UpdateOrderStatusRequest {
+  string orderId = 1;
+  string status = 2;
 }
 
 message CreateOrderRequest {

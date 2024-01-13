@@ -15,6 +15,12 @@ public class RestaurantApiController {
     this.restaurantApiService = restaurantApiService;
   }
 
+  @PostMapping("/order/{orderId}")
+  @CrossOrigin(origins = "*")
+  public void finishOrder(@PathVariable String orderId) {
+    restaurantApiService.finishOrder(orderId);
+  }
+
   @GetMapping(path = "/orders/sse/{restaurantId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   @CrossOrigin(origins = "*")
   public SseEmitter subscribe(@PathVariable String restaurantId) {

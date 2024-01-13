@@ -1,9 +1,7 @@
 package com.strandhvilliam.restaurantapi.services;
 
 import com.strandhvilliam.events.proto.OrderEvent;
-import com.strandhvilliam.ordermanagement.grpc.GetRestaurantOrdersRequest;
-import com.strandhvilliam.ordermanagement.grpc.ListOrderResponses;
-import com.strandhvilliam.ordermanagement.grpc.OrderManagementServiceGrpc;
+import com.strandhvilliam.ordermanagement.grpc.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,5 +52,15 @@ public class RestaurantApiService {
     emitter.onTimeout(() -> emitters.remove(restaurantId));
     emitter.onError((e) -> emitters.remove(restaurantId));
     logger.info("Added emitter for restaurant: " + restaurantId);
+  }
+
+  public void finishOrder(String orderId) {
+    logger.info("Trying to finish order: " + orderId);
+    var request = UpdateOrderStatusRequest.newBuilder()
+        .setOrderId(orderId)
+        .setStatus("ORDER_READY")
+        .build();
+    var response = orderManagementService.updateOrderStatus(request);
+    logger.info("Finished order: " + response.getId());
   }
 }

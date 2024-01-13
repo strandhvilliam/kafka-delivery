@@ -10,7 +10,6 @@ import java.util.List;
 
 @Component
 public class OrderProducer {
-  private static final String TOPIC = "order_created_dev";
 
   private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
@@ -24,7 +23,7 @@ public class OrderProducer {
    *
    * @param entity the order entity
    */
-  public void send(OrderEntity entity) {
+  public void send(String topic, OrderEntity entity) {
     var orderEvent = OrderEvent.newBuilder()
         .setId(entity.getId())
         .setDate(entity.getDate())
@@ -41,7 +40,7 @@ public class OrderProducer {
                 .toList())
         .build();
 
-    kafkaTemplate.send(TOPIC, orderEvent.getId(), orderEvent);
+    kafkaTemplate.send(topic , orderEvent.getId(), orderEvent);
   }
 
 

@@ -32,9 +32,10 @@ public class AvailabilityService {
 
   public void assignDriver(OrderEvent orderEvent) {
     var job = JobEntity.builder()
-        .destination(getCustomerCoordinates(orderEvent.getUserId()))
+        .destination(getCustomerCoordinates(orderEvent.getCustomerId()))
         .origin(getRestaurantCoordinates(orderEvent.getRestaurantId()))
         .driver(findSuitableDriver())
+        .customerId(orderEvent.getCustomerId())
         .timestamp(LocalDateTime.now())
         .orderId(orderEvent.getId())
         .build();
@@ -53,7 +54,7 @@ public class AvailabilityService {
     return new Coordinates(59.322585760273626, 18.072111709197497);
   }
 
-  /**
+ /**
    * Find the driver with the least amount of jobs
    *
    * @return DriverEntity

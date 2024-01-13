@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package com.strandhvilliam.geolocationhandler.grpc;
+
+option java_package = "com.strandhvilliam.geolocationhandler.grpc";
+option java_outer_classname = "GeoLocProto";
+option java_multiple_files = true;
+
+service GeoLocService {
+  rpc SendGeoLoc (GeoLocRequest) returns (GeoLocResponse) {}
+}
+
+message GeoLocRequest {
+  string orderId = 2;
+  string driverId = 3;
+  Coordinates coordinates = 4;
+}
+
+message GeoLocResponse {
+  string id = 1;
+  string orderId = 2;
+  string driverId = 3;
+  Coordinates coordinates = 4;
+  string timestamp = 6;
+  double distance = 7;
+}
+
+message Coordinates {
+  double latitude = 1;
+  double longitude = 2;
+}
+

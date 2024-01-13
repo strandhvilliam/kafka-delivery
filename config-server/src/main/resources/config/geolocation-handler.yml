@@ -1,0 +1,17 @@
+server:
+  port: 48084
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:48761/eureka/
+
+grpc:
+  server:
+    port: 38084
+  client:
+    driver-availability:
+      address: "static://127.0.0.1:38086"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: PLAINTEXT

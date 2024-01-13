@@ -44,6 +44,9 @@ public class JobEntity {
   @Column(name = "restaurant_id")
   private String restaurantId;
 
+  @Column(name = "customer_id")
+  private String customerId;
+
   @ManyToOne
   @JoinColumn(name = "driver_id")
   @JsonIgnore

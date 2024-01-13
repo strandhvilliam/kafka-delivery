@@ -28,7 +28,7 @@ public class OrderManagementClient {
 
     return CreateOrderRequest.newBuilder()
         .addAllProductIds(dto.getProductIds())
-        .setUserId(dto.getUserId())
+        .setCustomerId(dto.getCustomerId())
         .build();
   }
 

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.strandhvilliam.grpc;
+package com.strandhvilliam.driveravailability.grpc;
 
 option java_package = "com.strandhvilliam.driveravailability.grpc";
 option java_outer_classname = "DriverProto";
@@ -9,6 +9,7 @@ option java_multiple_files = true;
 service DriverService {
   rpc GetDriverById (DriverIdRequest) returns (DriverResponse);
   rpc GetDriverByEmail (DriverEmailRequest) returns (DriverResponse);
+  rpc GetJobByOrderId (OrderIdRequest) returns (JobResponse);
 }
 
 message DriverIdRequest {
@@ -17,6 +18,10 @@ message DriverIdRequest {
 
 message DriverEmailRequest {
   string email = 1;
+}
+
+message OrderIdRequest {
+  string orderId = 1;
 }
 
 message DriverResponse {

@@ -14,5 +14,14 @@ grpc:
       address: "static://127.0.0.1:38086"
       enableKeepAlive: true
       keepAliveWithoutCalls: true
-      negotiationType: plaintext
-
+      negotiationType: PLAINTEXT
+    order-management:
+      address: "static://127.0.0.1:38089"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: PLAINTEXT
+    geolocation-handler:
+      address: "static://127.0.0.1:38084"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: PLAINTEXT

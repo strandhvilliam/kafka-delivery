@@ -1,11 +1,10 @@
 package com.strandhvilliam.driverapi.controllers;
 
+import com.strandhvilliam.driverapi.dto.DriverLocationDto;
 import com.strandhvilliam.driverapi.services.DriverApiService;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.List;
@@ -27,9 +26,27 @@ public class DriverApiController {
     return emitter;
   }
 
+  @PostMapping("/pickup/{orderId}")
+  @CrossOrigin(origins = "*")
+  public void pickupOrder(@PathVariable String orderId) {
+    driverApiService.pickupOrder(orderId);
+  }
+
+  @PostMapping("/deliver/{orderId}")
+  @CrossOrigin(origins = "*")
+  public void deliverOrder(@PathVariable String orderId) {
+    driverApiService.deliverOrder(orderId);
+  }
+
   @GetMapping("/jobs")
   @CrossOrigin(origins = "*")
   public List<String> getJobs(@RequestParam String driverId) {
     return driverApiService.getJobs(driverId);
+  }
+
+  @PostMapping("/geolocation")
+  @CrossOrigin(origins = "*")
+  public void sendGeoLocation(@RequestBody @Valid DriverLocationDto dto) {
+    driverApiService.sendGeoLocation(dto);
   }
 }
