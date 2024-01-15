@@ -36,7 +36,7 @@ public class AvailabilityService {
         .origin(getRestaurantCoordinates(orderEvent.getRestaurantId()))
         .driver(findSuitableDriver())
         .customerId(orderEvent.getCustomerId())
-        .timestamp(LocalDateTime.now())
+        .createdAt(LocalDateTime.now())
         .orderId(orderEvent.getId())
         .build();
 

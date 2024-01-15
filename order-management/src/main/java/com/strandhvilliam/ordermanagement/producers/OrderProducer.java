@@ -26,7 +26,7 @@ public class OrderProducer {
   public void send(String topic, OrderEntity entity) {
     var orderEvent = OrderEvent.newBuilder()
         .setId(entity.getId())
-        .setDate(entity.getDate())
+        .setCreatedAt(entity.getCreatedAt())
         .setRestaurantId(entity.getRestaurantId())
         .setStatus(entity.getStatus())
         .setCustomerId(entity.getCustomerId())

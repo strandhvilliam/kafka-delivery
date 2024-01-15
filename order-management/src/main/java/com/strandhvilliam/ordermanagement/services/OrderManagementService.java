@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.UUID;
 
 @GrpcService
-public class OrderService extends OrderManagementServiceGrpc.OrderManagementServiceImplBase {
+public class OrderManagementService extends OrderManagementServiceGrpc.OrderManagementServiceImplBase {
 
-  private final Logger log = LoggerFactory.getLogger(OrderService.class.getSimpleName());
+  private final Logger log = LoggerFactory.getLogger(OrderManagementService.class.getSimpleName());
 
   private final ProductClient productClient;
   private final OrderProducer orderProducer;
   private final OrderRepository orderRepository;
 
-  public OrderService(ProductClient productClient, OrderProducer orderProducer, OrderRepository orderRepository) {
+  public OrderManagementService(ProductClient productClient, OrderProducer orderProducer, OrderRepository orderRepository) {
     this.productClient = productClient;
     this.orderProducer = orderProducer;
     this.orderRepository = orderRepository;
@@ -64,7 +64,8 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
         orderProducer.send("order_picked_up_dev", order);
         break;
       default:
-        break;
+        log.info("Order {} status not updated to {}", request.getOrderId(), request.getStatus());
+        return;
     }
 
     log.info("Order {} status updated to {}", request.getOrderId(), request.getStatus());
@@ -109,7 +110,7 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
     return OrderEntity
         .builder()
         .id(UUID.randomUUID().toString())
-        .date(LocalDateTime.now().toString())
+        .createdAt(LocalDateTime.now().toString())
         .status("ORDER_CREATED")
         .restaurantId(restaurantId)
         .customerId(req.getCustomerId())
@@ -121,7 +122,7 @@ public class OrderService extends OrderManagementServiceGrpc.OrderManagementServ
     return OrderResponse.newBuilder()
         .setId(order.getId())
         .setStatus(order.getStatus())
-        .setDate(order.getDate())
+        .setCreatedAt(order.getCreatedAt())
         .addAllItems(order.getItems() == null
             ? List.of()
             : order.getItems().stream()

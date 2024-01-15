@@ -22,8 +22,8 @@ public class JobEntity {
   @Column(name = "order_id")
   private String orderId;
 
-  @Column(name = "timestamp")
-  private LocalDateTime timestamp;
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 
   @Embedded
   @AttributeOverrides({
@@ -39,7 +39,8 @@ public class JobEntity {
   private Coordinates origin;
 
   @Column(name = "completed")
-  private boolean completed;
+  @Builder.Default
+  private boolean completed = false;
 
   @Column(name = "restaurant_id")
   private String restaurantId;

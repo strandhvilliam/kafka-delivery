@@ -1,7 +1,7 @@
 package com.strandhvilliam.restaurantapi.config;
 
 
-import com.strandhvilliam.events.proto.OrderEvent;
+import com.strandhvilliam.orderevent.proto.OrderEvent;
 import io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializerConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ public class KafkaConsumerConfig {
   }
 
   @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, OrderEvent> kafkaListenerContainerFactory() {
+  public ConcurrentKafkaListenerContainerFactory<String, OrderEvent> orderEventListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, OrderEvent> factory =
         new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory());

@@ -37,10 +37,24 @@ services:
       - "3308:3306"
     volumes:
       - .mysql/driver_availability-data:/var/lib/mysql
+  analytics_service_db:
+    image: mysql:latest
+    container_name: analytics_service_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=analytics_service_db
+      - MYSQL_USER=analytics_service_user
+      - MYSQL_PASSWORD=analytics_service_password
+    ports:
+      - "3309:3306"
+    volumes:
+      - .mysql/analytics_service-data:/var/lib/mysql
 volumes:
   order_management_db:
     driver: local
   product_catalog_db:
     driver: local
   driver_availability_db:
+    driver: local
+  analytics_service_db:
     driver: local

@@ -29,8 +29,9 @@ public class DriverAssignedProducer {
   public void send(JobEntity entity) {
     var jobEvent = JobEvent.newBuilder()
         .setId(entity.getId())
-        .setTimestamp(entity.getTimestamp().toString())
+        .setCreatedAt(entity.getCreatedAt().toString())
         .setDriverId(entity.getDriver().getId())
+        .setCompleted(entity.isCompleted())
         .setOrderId(entity.getOrderId())
         .setOrigin(Coordinates.newBuilder()
             .setLatitude(entity.getOrigin().getLatitude())

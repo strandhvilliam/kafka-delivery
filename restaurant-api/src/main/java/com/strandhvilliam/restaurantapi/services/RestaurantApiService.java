@@ -1,6 +1,6 @@
 package com.strandhvilliam.restaurantapi.services;
 
-import com.strandhvilliam.events.proto.OrderEvent;
+import com.strandhvilliam.orderevent.proto.OrderEvent;
 import com.strandhvilliam.ordermanagement.grpc.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.slf4j.Logger;

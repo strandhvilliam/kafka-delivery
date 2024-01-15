@@ -1,0 +1,24 @@
+server:
+  port: 48090
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:48761/eureka/
+
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3309/analytics_service_db?createDatabaseIfNotExist=true
+    username: analytics_service_user
+    password: analytics_service_password
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: true
+
+grpc:
+  server:
+    port: 38090

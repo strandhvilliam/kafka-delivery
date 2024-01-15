@@ -17,7 +17,7 @@ message CreateOrderRequest {
 
 message OrderResponse {
   string id = 1;
-  string date = 2;
+  string createdAt = 2;
   string userId = 3;
   string restaurantId = 4;
   string status = 5;

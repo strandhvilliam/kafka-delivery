@@ -1,6 +1,6 @@
 package com.strandhvilliam.restaurantapi.consumers;
 
-import com.strandhvilliam.events.proto.OrderEvent;
+import com.strandhvilliam.orderevent.proto.OrderEvent;
 import com.strandhvilliam.restaurantapi.services.RestaurantApiService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;

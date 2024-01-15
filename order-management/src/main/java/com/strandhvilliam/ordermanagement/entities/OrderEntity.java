@@ -18,8 +18,8 @@ public class OrderEntity {
 
   @Id()
   private String id;
-  @Column(name = "date")
-  private String date;
+  @Column(name = "created_at")
+  private String createdAt;
   @Column(name = "status")
   private String status;
   @Column(name = "customer_id")

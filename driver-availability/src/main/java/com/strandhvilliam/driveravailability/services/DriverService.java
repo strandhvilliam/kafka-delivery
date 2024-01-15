@@ -53,6 +53,8 @@ public class DriverService extends DriverServiceGrpc.DriverServiceImplBase {
             .setLongitude(entity.getOrigin().getLongitude())
             .build())
         .setDriverId(entity.getDriver().getId())
+        .setCreatedAt(entity.getCreatedAt().toString())
+        .setCompleted(entity.isCompleted())
         .setOrderId(entity.getOrderId())
         .build();
   }
