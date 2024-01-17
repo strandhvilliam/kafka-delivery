@@ -5,13 +5,13 @@
     <title>Spring SSE Demo</title>
 </head>
 <body>
-<h1>DRIVER API SSE</h1>
+<h1>Delivery Driver Events</h1>
 <div id="events"></div>
 
 <script>
 
 
-    const driverId = "1229fcad-ae5f-11ee-b2a3-0242c0a8b004"
+    const driverId = "driver-1"
     fetch(`http://localhost:48082/jobs?driverId=${driverId}`).then((res) => {
         return res.json()
     }).then((json) => {

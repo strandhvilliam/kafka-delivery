@@ -47,6 +47,21 @@ public class OrderManagementService extends OrderManagementServiceGrpc.OrderMana
   }
 
   @Override
+  public void getCustomerOrders(
+      GetCustomerOrdersRequest req,
+      StreamObserver<ListOrderResponses> responseObserver) {
+    log.info("Getting orders for customer {}", req.getCustomerId());
+    var orders = orderRepository.findByCustomerId(req.getCustomerId());
+    var response = ListOrderResponses.newBuilder()
+        .addAllOrders(orders.stream().map(this::buildResponse).toList())
+        .build();
+
+    log.info("Found {} orders for customer {}", orders.size(), req.getCustomerId());
+    responseObserver.onNext(response);
+    responseObserver.onCompleted();
+  }
+
+  @Override
   public void updateOrderStatus(UpdateOrderStatusRequest request, StreamObserver<OrderResponse> responseObserver) {
     log.info("Updating order {} status to {}", request.getOrderId(), request.getStatus());
     var order = orderRepository.findById(request.getOrderId()).orElseThrow();
@@ -77,14 +92,25 @@ public class OrderManagementService extends OrderManagementServiceGrpc.OrderMana
   public void createOrder(
       CreateOrderRequest req,
       StreamObserver<OrderResponse> responseObserver) {
+    log.info("Request: {}", req.getProductIdsList());
     log.info("Creating order for customer {}", req.getCustomerId());
+    log.info("Getting products {}", req.getProductIdsList());
     var products = productClient.getManyProducts(req.getProductIdsList());
+
+    if (products.getProductsList().isEmpty()) {
+      log.info("No products found for ids {}", req.getProductIdsList());
+      throw new RuntimeException("No products found");
+    }
+
+    var restaurantId = products.getProductsList().get(0).getRestaurantId();
+
     // TODO: check if products are from the same restaurant
-    var restaurantId = products.getProductsList()
-        .isEmpty() ? "" : products.getProductsList().get(0).getRestaurantId();
+
     var order = buildCreatedEntity(req, restaurantId);
     var orderItems = buildOrderItems(products, order);
     order.setItems(orderItems);
+
+    log.info("Saving orderitems: {}", orderItems);
 
     orderRepository.save(order);
     orderProducer.send("order_created_dev", order);
@@ -96,6 +122,7 @@ public class OrderManagementService extends OrderManagementServiceGrpc.OrderMana
   }
 
   private List<OrderItemEntity> buildOrderItems(ListProductsResponse products, OrderEntity order) {
+    log.info("Building order items for products: {}", products.getProductsList());
     return products.getProductsList().stream().map(product -> OrderItemEntity
         .builder()
         .id(UUID.randomUUID().toString())

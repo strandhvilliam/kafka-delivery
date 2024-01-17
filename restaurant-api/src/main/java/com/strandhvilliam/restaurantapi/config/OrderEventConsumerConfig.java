@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaConsumerConfig {
+public class OrderEventConsumerConfig {
 
   @Bean
   public ConsumerFactory<String, OrderEvent> consumerFactory() {

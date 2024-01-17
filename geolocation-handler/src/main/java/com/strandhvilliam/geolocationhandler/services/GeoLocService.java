@@ -67,6 +67,7 @@ public class GeoLocService extends GeoLocServiceGrpc.GeoLocServiceImplBase {
                 .build()))
         .setDriverId(request.getDriverId())
         .setCoordinates(request.getCoordinates())
+        .setCustomerId(jobData.getCustomerId())
         .setTimestamp(LocalDateTime.now().toString())
         .build();
 
@@ -74,6 +75,7 @@ public class GeoLocService extends GeoLocServiceGrpc.GeoLocServiceImplBase {
         .setId(response.getId())
         .setOrderId(response.getOrderId())
         .setDriverId(response.getDriverId())
+        .setCustomerId(response.getCustomerId())
         .setDistance(response.getDistance())
         .setCoordinates(Coordinates.newBuilder()
             .setLatitude(response.getCoordinates().getLatitude())

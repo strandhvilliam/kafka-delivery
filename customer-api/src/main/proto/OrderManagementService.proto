@@ -8,17 +8,22 @@ option java_multiple_files = true;
 
 service OrderManagementService {
   rpc CreateOrder(CreateOrderRequest) returns (OrderResponse) {}
+  rpc GetCustomerOrders(GetCustomerOrdersRequest) returns (ListOrderResponses) {}
 }
 
 message CreateOrderRequest {
   string customerId = 1;
-  repeated string productIds = 3;
+  repeated string productIds = 2;
+}
+
+message GetCustomerOrdersRequest {
+  string customerId = 1;
 }
 
 message OrderResponse {
   string id = 1;
   string createdAt = 2;
-  string userId = 3;
+  string customerId= 3;
   string restaurantId = 4;
   string status = 5;
   repeated OrderItem items = 6;
@@ -29,4 +34,8 @@ message OrderItem {
   string productId = 2;
   string description = 3;
   double cost = 4;
+}
+
+message ListOrderResponses {
+  repeated OrderResponse orders = 1;
 }

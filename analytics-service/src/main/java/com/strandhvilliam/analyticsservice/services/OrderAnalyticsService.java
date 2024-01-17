@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 
 @Service
 public class OrderAnalyticsService {
@@ -30,6 +31,7 @@ public class OrderAnalyticsService {
   private final TotalDeliveredTimeRepository totalDeliveredTimeRepository;
   private final FinishedToPickupTimeRepository finishedToPickupTimeRepository;
 
+
   public OrderAnalyticsService(OrderValueRepository orderValueRepository, SoldProductRepository soldProductRepository, RestaurantFinishTimeRepository restaurantFinishTimeRepository, PickupToDeliveredTimeRepository pickupToDeliveredTimeRepository, TotalDeliveredTimeRepository totalDeliveredTimeRepository, FinishedToPickupTimeRepository finishedToPickupTimeRepository) {
     this.orderValueRepository = orderValueRepository;
     this.soldProductRepository = soldProductRepository;
@@ -37,6 +39,70 @@ public class OrderAnalyticsService {
     this.pickupToDeliveredTimeRepository = pickupToDeliveredTimeRepository;
     this.totalDeliveredTimeRepository = totalDeliveredTimeRepository;
     this.finishedToPickupTimeRepository = finishedToPickupTimeRepository;
+  }
+
+  public double getAverageOrderValue(String restaurantId) {
+    var orderValues = orderValueRepository.findAllByRestaurantId(restaurantId);
+    logger.info("Order values: {}", orderValues);
+    var sum = orderValues.stream()
+        .mapToDouble(OrderValueEntity::getOrderValue)
+        .sum();
+    logger.info("Sum: {}", sum);
+    return orderValues.isEmpty() ? 0 :(sum / orderValues.size());
+  }
+
+  public double getAverageSoldProductPrice(String restaurantId) {
+    var soldProducts = soldProductRepository.findAllByRestaurantId(restaurantId);
+    logger.info("Sold products: {}", soldProducts);
+    var sum = soldProducts.stream()
+        .mapToDouble(SoldProductEntity::getProductPrice)
+        .sum();
+    logger.info("Sum: {}", sum);
+    return soldProducts.isEmpty() ? 0 : (sum / soldProducts.size());
+  }
+
+  public double getAverageTotalDeliveryTime(String restaurantId) {
+    var deliveryTimes = totalDeliveredTimeRepository.findAllByRestaurantId(restaurantId);
+    var sum = deliveryTimes.stream()
+        .mapToDouble(TotalDeliveredTimeEntity::getTotalDeliverySeconds)
+        .sum();
+    logger.info("Sum: {}", sum);
+    return deliveryTimes.isEmpty() ? 0 : (sum / deliveryTimes.size());
+  }
+
+  public double getAverageFinishedToPickupTime(String driverId) {
+    var finishTimes = finishedToPickupTimeRepository.findAllByDriverId(driverId);
+    var sum = finishTimes.stream()
+        .mapToDouble(FinishedToPickupTimeEntity::getFinishedToPickupSeconds)
+        .sum();
+
+    logger.info("Sum: {}", sum);
+    return finishTimes.isEmpty() ? 0 : (sum / finishTimes.size());
+  }
+
+  public String getMostPopularProduct(String restaurantId) {
+    var soldProducts = soldProductRepository.findAllByRestaurantId(restaurantId);
+    var mostPopular = soldProducts.stream()
+        .max(Comparator.comparingInt(SoldProductEntity::getQuantity))
+        .orElseThrow();
+    return mostPopular.getProductName() + " (" + mostPopular.getQuantity() + " sold)";
+  }
+
+  public double getAverageRestaurantFinishTime(String restaurantId) {
+    var finishTimes = restaurantFinishTimeRepository.findAllByRestaurantId(restaurantId);
+    var sum = finishTimes.stream()
+        .mapToDouble(RestaurantFinishTimeEntity::getSecondsToFinish)
+        .sum();
+    return finishTimes.isEmpty() ? 0 : (sum / finishTimes.size());
+  }
+
+  public double getAveragePickupToDeliveredTime(String driverId) {
+    var deliveryTimes = pickupToDeliveredTimeRepository.findAllByDriverId(driverId);
+    logger.info("Delivery times: {}", deliveryTimes);
+    var sum = deliveryTimes.stream()
+        .mapToDouble(PickupToDeliveredTimeEntity::getPickupToDeliveredSeconds)
+        .sum();
+    return deliveryTimes.isEmpty() ? 0 : (sum / deliveryTimes.size());
   }
 
   public void processOrderPickedUpEvent(OrderEvent orderEvent) {
@@ -157,8 +223,11 @@ public class OrderAnalyticsService {
   }
 
   private void insertOrderValue(OrderEvent orderEvent) {
+    System.out.println(orderEvent.getItemsList());
     var value = orderEvent.getItemsList().stream()
         .reduce(0.0, (subtotal, item) -> subtotal + item.getCost(), Double::sum);
+
+    System.out.println("Order value: " + value);
 
     // add order value
     var orderValueEntity = OrderValueEntity.builder()

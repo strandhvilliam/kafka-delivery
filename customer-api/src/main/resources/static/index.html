@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring SSE Demo</title>
+</head>
+<body>
+<h1>Customer Order Events</h1>
+    <h3>Create Order</h3>
+    <button type="button" onclick="submitForm()">Submit</button>
+<h2>Events</h2>
+<div id="events"></div>
+
+<script>
+
+    function submitForm(e) {
+        fetch(`http://localhost:48081/order`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "customerId": "user123",
+                "restaurantId": "res1",
+                "productIds": [
+                    "abc125",
+                    "abc124"
+                ]
+            })
+        }).then((res) => {
+            return res.text()
+        }).then((data) => {
+            console.log(data)
+            const div = document.createElement("div");
+            div.textContent = `Event received: ${data}`;
+            document.getElementById("events").appendChild(div);
+            // json.forEach((event) => {
+            //     const div = document.createElement("div");
+            //     div.textContent = `Event received: ${event}`;
+            //     document.getElementById("events").appendChild(div);
+            // })
+        }).catch((err) => {
+            console.error(err)
+        })
+
+    }
+
+    const customerId = "user123"
+    fetch(`http://localhost:48081/orders/${customerId}`).then((res) => {
+        return res.text()
+    }).then((data) => {
+        console.log(data)
+        const div = document.createElement("div");
+        div.textContent = `Order loaded: ${data}`;
+        document.getElementById("events").appendChild(div);
+        // json.forEach((event) => {
+        //     const div = document.createElement("div");
+        //     div.textContent = `Event received: ${event}`;
+        //     document.getElementById("events").appendChild(div);
+        // })
+    }).catch((err) => {
+        console.error(err)
+    })
+    const eventSource = new EventSource(`http://localhost:48081/orders/sse/${customerId}`);
+
+    eventSource.onmessage = (event) => {
+        const div = document.createElement("div");
+        div.textContent = `Event received: ${event.data}`;
+        document.getElementById("events").appendChild(div);
+    };
+
+    eventSource.onerror = (error) => {
+        console.error("Error occurred:", error)
+        eventSource.close();
+    };
+</script>
+</body>
+</html>

@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
+
 @RestController
 public class RestaurantApiController {
 
@@ -17,8 +19,8 @@ public class RestaurantApiController {
 
   @PostMapping("/order/{orderId}")
   @CrossOrigin(origins = "*")
-  public void finishOrder(@PathVariable String orderId) {
-    restaurantApiService.finishOrder(orderId);
+  public String finishOrder(@PathVariable String orderId) {
+    return restaurantApiService.finishOrder(orderId);
   }
 
   @GetMapping(path = "/orders/sse/{restaurantId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -31,7 +33,7 @@ public class RestaurantApiController {
 
   @GetMapping("/orders/{restaurantId}")
   @CrossOrigin(origins = "*")
-  public String getOrders(@PathVariable String restaurantId) {
+  public List<String> getOrders(@PathVariable String restaurantId) {
     return restaurantApiService.getRestaurantOrders(restaurantId);
   }
 

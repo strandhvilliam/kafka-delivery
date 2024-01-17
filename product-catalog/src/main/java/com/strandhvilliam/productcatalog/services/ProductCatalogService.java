@@ -13,8 +13,11 @@ import com.strandhvilliam.productcatalog.repository.ProductRepository;
 public class ProductCatalogService extends
     ProductServiceGrpc.ProductServiceImplBase {
 
-  @Autowired
-  private ProductRepository productRepository;
+  private final ProductRepository productRepository;
+
+  public ProductCatalogService(ProductRepository productRepository) {
+    this.productRepository = productRepository;
+  }
 
   @Override
   public void getProduct(

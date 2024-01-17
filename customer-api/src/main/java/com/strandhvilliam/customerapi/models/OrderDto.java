@@ -1,4 +1,4 @@
-package com.strandhvilliam.customerapi.order;
+package com.strandhvilliam.customerapi.models;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

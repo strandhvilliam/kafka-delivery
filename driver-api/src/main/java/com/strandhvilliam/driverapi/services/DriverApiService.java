@@ -69,7 +69,7 @@ public class DriverApiService {
     }
   }
 
-  public void pickupOrder(String orderId) {
+  public String pickupOrder(String orderId) {
     logger.info("Trying to pickup order: " + orderId);
     var request = UpdateOrderStatusRequest.newBuilder()
         .setOrderId(orderId)
@@ -77,9 +77,10 @@ public class DriverApiService {
         .build();
     var response = orderManagementService.updateOrderStatus(request);
     logger.info("Picked up order: " + response.getId());
+    return response.getId();
   }
 
-  public void deliverOrder(String orderId) {
+  public String deliverOrder(String orderId) {
     logger.info("Trying to deliver order: " + orderId);
     var request = UpdateOrderStatusRequest.newBuilder()
         .setOrderId(orderId)
@@ -87,6 +88,7 @@ public class DriverApiService {
         .build();
     var response = orderManagementService.updateOrderStatus(request);
     logger.info("Delivered order: " + response.getId());
+    return response.getId();
   }
 
   public void sendGeoLocation(DriverLocationDto dto) {

@@ -10,4 +10,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<OrderEntity, String> {
 
   List<OrderEntity> findByRestaurantId(String restaurantId);
+
+  List<OrderEntity> findByCustomerId(String customerId);
 }

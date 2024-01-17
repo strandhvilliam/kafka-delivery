@@ -9,7 +9,6 @@ class RestaurantScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(64.0),
@@ -40,7 +39,7 @@ class RestaurantScreen extends ConsumerWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
             HeroBox(),
@@ -60,32 +59,55 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Menu',
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 12.0),
           for (int i = 0; i < 20; i++)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
+              padding: const EdgeInsets.only(bottom: 20.0),
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      'Item $i',
-                      style: Theme.of(context).textTheme.titleSmall,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pizza margerita $i',
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                        Text(
+                          'Tomato sauce, mozzarella, basil, olive oil',
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Inter',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          '10.00 SEK',
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    'Rp 100.000',
-                    style: Theme.of(context).textTheme.titleSmall,
+                  IconButton(
+                    icon: const Icon(Icons.add_circle_outline_rounded),
+                    onPressed: () {},
                   ),
                 ],
               ),

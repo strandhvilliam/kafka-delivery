@@ -1,8 +1,10 @@
 package com.strandhvilliam.ordermanagement.producers;
 
-import com.strandhvilliam.events.proto.OrderEvent;
-import com.strandhvilliam.events.proto.OrderEventItem;
+import com.strandhvilliam.orderevent.proto.OrderEvent;
+import com.strandhvilliam.orderevent.proto.OrderEventItem;
 import com.strandhvilliam.ordermanagement.entities.OrderEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @Component
 public class OrderProducer {
 
+  private final Logger log = LoggerFactory.getLogger(OrderProducer.class.getSimpleName());
   private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
   public OrderProducer(KafkaTemplate<String, OrderEvent> kafkaTemplate) {
@@ -24,6 +27,7 @@ public class OrderProducer {
    * @param entity the order entity
    */
   public void send(String topic, OrderEntity entity) {
+    log.info("SENDING EVENT {} to topic {}", entity.getId(), topic);
     var orderEvent = OrderEvent.newBuilder()
         .setId(entity.getId())
         .setCreatedAt(entity.getCreatedAt())

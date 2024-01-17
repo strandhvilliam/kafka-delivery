@@ -1,7 +1,7 @@
 syntax = "proto3";
-package com.strandhvilliam.events;
+package com.strandhvilliam.orderevent;
 
-option java_package = "com.strandhvilliam.events.proto";
+option java_package = "com.strandhvilliam.orderevent.proto";
 option java_outer_classname = "OrderEventProto";
 option java_multiple_files = true;
 

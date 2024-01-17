@@ -28,14 +28,14 @@ public class DriverApiController {
 
   @PostMapping("/pickup/{orderId}")
   @CrossOrigin(origins = "*")
-  public void pickupOrder(@PathVariable String orderId) {
-    driverApiService.pickupOrder(orderId);
+  public String pickupOrder(@PathVariable String orderId) {
+    return driverApiService.pickupOrder(orderId);
   }
 
   @PostMapping("/deliver/{orderId}")
   @CrossOrigin(origins = "*")
-  public void deliverOrder(@PathVariable String orderId) {
-    driverApiService.deliverOrder(orderId);
+  public String deliverOrder(@PathVariable String orderId) {
+    return driverApiService.deliverOrder(orderId);
   }
 
   @GetMapping("/jobs")

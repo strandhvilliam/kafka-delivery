@@ -110,6 +110,11 @@ class MainApp extends ConsumerWidget {
             fontSize: 14.0,
             fontFamily: GoogleFonts.inter().fontFamily,
           ),
+          bodyLarge: TextStyle(
+            color: Colors.black87,
+            fontSize: 16.0,
+            fontFamily: GoogleFonts.inter().fontFamily,
+          ),
           titleSmall: TextStyle(
             letterSpacing: 1.0,
             fontSize: 24.0,

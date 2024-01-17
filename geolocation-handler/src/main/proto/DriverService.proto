@@ -23,6 +23,7 @@ message JobResponse {
   bool completed = 6;
   Coordinates destination = 7;
   Coordinates origin = 8;
+  string customerId = 9;
 }
 
 message Coordinates {

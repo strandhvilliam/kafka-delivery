@@ -13,6 +13,8 @@ public class OrderEventConsumer {
   private static final String TOPIC = "order_created_dev";
   private static final String GROUP_ID = "restaurant-api-group";
 
+  private static final String CONSUMER_FACTORY = "orderEventListenerContainerFactory";
+
   private final Logger logger = LoggerFactory.getLogger(OrderEventConsumer.class);
 
   private final RestaurantApiService restaurantApiService;
@@ -21,7 +23,7 @@ public class OrderEventConsumer {
     this.restaurantApiService = restaurantApiService;
   }
 
-  @KafkaListener(topics = TOPIC, groupId = GROUP_ID)
+  @KafkaListener(topics = TOPIC, groupId = GROUP_ID, containerFactory = CONSUMER_FACTORY)
   public void consume(ConsumerRecord<String, OrderEvent> event) {
     logger.info(String.format("Consumed event -> %s", event.value().getId()));
     restaurantApiService.emit(event.value().getRestaurantId(), event.value());

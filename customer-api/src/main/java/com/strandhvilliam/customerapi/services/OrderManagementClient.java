@@ -1,8 +1,7 @@
-package com.strandhvilliam.customerapi.order;
+package com.strandhvilliam.customerapi.services;
 
-import com.strandhvilliam.ordermanagement.grpc.CreateOrderRequest;
-import com.strandhvilliam.ordermanagement.grpc.OrderManagementServiceGrpc;
-import com.strandhvilliam.ordermanagement.grpc.OrderResponse;
+import com.strandhvilliam.customerapi.models.OrderDto;
+import com.strandhvilliam.ordermanagement.grpc.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,14 @@ public class OrderManagementClient {
     log.info("Sending request to create order");
     CreateOrderRequest request = buildRequest(dto);
     return orderManagementServiceStub.createOrder(request);
+  }
+
+  public ListOrderResponses getOrders(String customerId) {
+    log.info("Sending request to get orders");
+    var request = GetCustomerOrdersRequest.newBuilder()
+        .setCustomerId(customerId)
+        .build();
+    return orderManagementServiceStub.getCustomerOrders(request);
   }
 
   private CreateOrderRequest buildRequest(OrderDto dto) {

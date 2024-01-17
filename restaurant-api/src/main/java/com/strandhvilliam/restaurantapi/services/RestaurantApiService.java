@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,14 +23,14 @@ public class RestaurantApiService {
   @GrpcClient(ORDER_MANAGEMENT_CLIENT)
   private OrderManagementServiceGrpc.OrderManagementServiceBlockingStub orderManagementService;
 
-  public String getRestaurantOrders(String restaurantId) {
+  public List<String> getRestaurantOrders(String restaurantId) {
     logger.info("Trying to get orders for restaurant: " + restaurantId);
     var request = GetRestaurantOrdersRequest.newBuilder()
         .setRestaurantId(restaurantId)
         .build();
     var response = orderManagementService.getRestaurantOrders(request);
     logger.info("Got orders for restaurant: " + restaurantId);
-    return response.toString();
+    return response.getOrdersList().stream().map(OrderResponse::getId).toList();
   }
 
   public void emit(String restaurantId, OrderEvent orderEvent) {
@@ -54,7 +55,7 @@ public class RestaurantApiService {
     logger.info("Added emitter for restaurant: " + restaurantId);
   }
 
-  public void finishOrder(String orderId) {
+  public String finishOrder(String orderId) {
     logger.info("Trying to finish order: " + orderId);
     var request = UpdateOrderStatusRequest.newBuilder()
         .setOrderId(orderId)
@@ -62,5 +63,6 @@ public class RestaurantApiService {
         .build();
     var response = orderManagementService.updateOrderStatus(request);
     logger.info("Finished order: " + response.getId());
+    return response.getId();
   }
 }

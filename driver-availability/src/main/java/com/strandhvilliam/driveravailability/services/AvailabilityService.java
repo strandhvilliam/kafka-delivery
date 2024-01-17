@@ -6,7 +6,7 @@ import com.strandhvilliam.driveravailability.producers.DriverAssignedProducer;
 import com.strandhvilliam.driveravailability.repositories.DriverEntityRepository;
 import com.strandhvilliam.driveravailability.repositories.JobEntityRepository;
 import com.strandhvilliam.driveravailability.utils.Coordinates;
-import com.strandhvilliam.events.proto.OrderEvent;
+import com.strandhvilliam.orderevent.proto.OrderEvent;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

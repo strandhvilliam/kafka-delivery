@@ -1,7 +1,7 @@
 package com.strandhvilliam.driveravailability.consumers;
 
 import com.strandhvilliam.driveravailability.services.AvailabilityService;
-import com.strandhvilliam.events.proto.OrderEvent;
+import com.strandhvilliam.orderevent.proto.OrderEvent;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;

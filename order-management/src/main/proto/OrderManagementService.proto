@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.strandhvilliam.grpc;
+package com.strandhvilliam.ordermanagement.grpc;
 
 option java_package = "com.strandhvilliam.ordermanagement.grpc";
 option java_outer_classname = "OrderProto";
@@ -30,6 +30,7 @@ message GetCustomerOrdersRequest {
 message GetRestaurantOrdersRequest {
   string restaurantId = 1;
 }
+
 
 message OrderResponse {
   string id = 1;
