@@ -52,6 +52,7 @@ public class KafkaConsumerConfig {
     Map<String, Object> config = new HashMap<>();
     config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     config.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
+    config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
     config.put("schema.registry.url", "http://localhost:8081");
     config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
         "org.apache.kafka.common.serialization.StringDeserializer");

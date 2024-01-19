@@ -1,6 +1,7 @@
 package com.strandhvilliam.productcatalog.services;
 
 import com.strandhvilliam.productcatalog.grpc.*;
+import com.strandhvilliam.productcatalog.utils.CustomLogger;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 
@@ -15,14 +16,19 @@ public class ProductCatalogService extends
 
   private final ProductRepository productRepository;
 
-  public ProductCatalogService(ProductRepository productRepository) {
+  private final CustomLogger logger;
+
+  public ProductCatalogService(ProductRepository productRepository, CustomLogger logger) {
     this.productRepository = productRepository;
+    this.logger = logger;
   }
 
   @Override
   public void getProduct(
       ProductIdRequest req,
       StreamObserver<ProductResponse> responseObserver) {
+
+    logger.info("Getting product" + req.getId(), ProductCatalogService.class.getSimpleName());
 
     productRepository.findById(req.getId())
         .ifPresentOrElse(
@@ -32,7 +38,7 @@ public class ProductCatalogService extends
 
   @Override
   public void getManyProducts(ManyProductIdRequest req, StreamObserver<ListProductsResponse> responseObserver) {
-    System.out.println("getManyProducts" + req.getIdsList());
+    logger.info("Getting many products" + req.getIdsList(), ProductCatalogService.class.getSimpleName());
     ListProductsResponse.Builder responseBuilder = ListProductsResponse.newBuilder();
     productRepository.findAll().stream().filter(product -> req.getIdsList().contains(product.getId()))
         .forEach(product ->
@@ -45,6 +51,7 @@ public class ProductCatalogService extends
   public void createProduct(
       CreateProductRequest req,
       StreamObserver<ProductResponse> responseObserver) {
+    logger.info("Creating product" + req.getDescription(), ProductCatalogService.class.getSimpleName());
     ProductEntity product = new ProductEntity();
     product.setDescription(req.getDescription());
     product.setCost(req.getCost());

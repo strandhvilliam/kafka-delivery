@@ -11,6 +11,16 @@ service OrderManagementService {
   rpc GetCustomerOrders(GetCustomerOrdersRequest) returns (ListOrderResponses) {}
   rpc GetRestaurantOrders(GetRestaurantOrdersRequest) returns (ListOrderResponses) {}
   rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (OrderResponse) {}
+  rpc GetManyOrders(GetManyOrdersRequest) returns (ListOrderResponses) {}
+  rpc GetOrder(GetOrderIdRequest) returns (OrderResponse) {}
+}
+
+message GetOrderIdRequest {
+  string orderId = 1;
+}
+
+message GetManyOrdersRequest {
+  repeated string orderIds = 1;
 }
 
 message UpdateOrderStatusRequest {

@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderEventConsumer {
 
-  private final Logger logger = LoggerFactory.getLogger(OrderEventConsumer.class);
-
   private final OrderAnalyticsService orderAnalyticsService;
 
   public OrderEventConsumer(OrderAnalyticsService orderAnalyticsService) {
@@ -33,8 +31,6 @@ public class OrderEventConsumer {
   )
   public void consume(OrderEvent event, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
 
-    logger.info("Received event {} from topic {}", event.getId(), topic);
-
     switch (topic) {
       case "order_created_dev":
         orderAnalyticsService.processOrderCreatedEvent(event);
@@ -49,7 +45,6 @@ public class OrderEventConsumer {
         orderAnalyticsService.processOrderDeliveredEvent(event);
         break;
       default:
-        logger.warn("Unknown topic {}", topic);
         break;
     }
   }

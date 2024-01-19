@@ -1,6 +1,7 @@
 package com.strandhvilliam.customerapi.consumers;
 
 import com.strandhvilliam.customerapi.services.CustomerApiService;
+import com.strandhvilliam.customerapi.utils.CustomLogger;
 import com.strandhvilliam.orderevent.proto.OrderEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -15,11 +16,13 @@ import org.springframework.stereotype.Component;
 public class OrderEventConsumer {
 
   public static final String GROUP_ID = "customer-api-group";
-  private final Logger logger = LoggerFactory.getLogger(OrderEventConsumer.class.getSimpleName());
+
+  private final CustomLogger log;
 
   private final CustomerApiService customerApiService;
 
-  public OrderEventConsumer(CustomerApiService customerApiService) {
+  public OrderEventConsumer(CustomLogger log, CustomerApiService customerApiService) {
+    this.log = log;
     this.customerApiService = customerApiService;
   }
 
@@ -29,7 +32,7 @@ public class OrderEventConsumer {
       containerFactory = "orderEventListenerContainerFactory"
   )
   public void consume(ConsumerRecord<String, OrderEvent> event, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
-    logger.info(String.format("##### %n Consumed order event -> %s $n For topic -> %s %n #####", event.value().getId(), topic));
+    log.info(String.format("##### Consumed order event -> %s", event.value().getId()), OrderEventConsumer.class.getSimpleName());
     customerApiService.emitOrderEvent(event.value().getCustomerId(), event.value(), topic);
   }
 

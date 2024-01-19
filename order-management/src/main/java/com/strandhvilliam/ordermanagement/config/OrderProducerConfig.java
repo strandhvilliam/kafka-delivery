@@ -25,8 +25,8 @@ public class OrderProducerConfig {
     return new DefaultKafkaProducerFactory<>(props);
   }
 
-  @Bean
-  public KafkaTemplate<String, OrderEvent> kafkaTemplate() {
+  @Bean(name = "orderTemplate")
+  public KafkaTemplate<String, OrderEvent> orderTemplate() {
     return new KafkaTemplate<>(orderProducerFactory());
   }
 }

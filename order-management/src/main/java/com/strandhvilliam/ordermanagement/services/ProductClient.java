@@ -18,7 +18,7 @@ public class ProductClient {
   private ProductServiceGrpc.ProductServiceBlockingStub productServiceStub;
 
   public ListProductsResponse getManyProducts(List<String> ids) {
-    log.info("getManyProducts" + ids);
+    log.info("Getting many products");
     ManyProductIdRequest request = ManyProductIdRequest.newBuilder().addAllIds(ids).build();
     return productServiceStub.getManyProducts(request);
   }

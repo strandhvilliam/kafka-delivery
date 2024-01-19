@@ -1,6 +1,7 @@
 package com.strandhvilliam.customerapi.consumers;
 
 import com.strandhvilliam.customerapi.services.CustomerApiService;
+import com.strandhvilliam.customerapi.utils.CustomLogger;
 import com.strandhvilliam.geolocevent.proto.GeoLocEvent;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -13,11 +14,12 @@ public class GeoLocEventConsumer {
 
   public final String GROUP_ID = "customer-api-group";
 
-  private final Logger logger = LoggerFactory.getLogger(GeoLocEventConsumer.class.getSimpleName());
+  private final CustomLogger log;
 
   private final CustomerApiService customerApiService;
 
-  public GeoLocEventConsumer(CustomerApiService customerApiService) {
+  public GeoLocEventConsumer(CustomLogger log, CustomerApiService customerApiService) {
+    this.log = log;
     this.customerApiService = customerApiService;
   }
 
@@ -27,7 +29,7 @@ public class GeoLocEventConsumer {
       containerFactory = "geoLocEventListenerContainerFactory"
   )
   public void consume(ConsumerRecord<String, GeoLocEvent> event) {
-    logger.info(String.format("##### %n Consumed geo location event -> %s %n #####", event));
+    log.info(String.format("##### Consumed geo location event -> %s", event.value().getId()), GeoLocEventConsumer.class.getSimpleName());
     customerApiService.emitGeoLocEvent(event.value().getCustomerId(), event.value());
   }
 }

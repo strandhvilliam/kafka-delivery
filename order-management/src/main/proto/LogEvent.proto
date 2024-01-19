@@ -1,0 +1,13 @@
+syntax = "proto3";
+package com.strandhvilliam.logevent;
+
+option java_package = "com.strandhvilliam.logevent.proto";
+option java_outer_classname = "LogEventProto";
+option java_multiple_files = true;
+
+message LogEvent {
+  string source = 1;
+  string message = 2;
+  string level = 3;
+  string timestamp = 4;
+}

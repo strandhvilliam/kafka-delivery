@@ -3,8 +3,10 @@ package com.strandhvilliam.ordermanagement.producers;
 import com.strandhvilliam.orderevent.proto.OrderEvent;
 import com.strandhvilliam.orderevent.proto.OrderEventItem;
 import com.strandhvilliam.ordermanagement.entities.OrderEntity;
+import com.strandhvilliam.ordermanagement.utils.CustomLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +15,12 @@ import java.util.List;
 @Component
 public class OrderProducer {
 
-  private final Logger log = LoggerFactory.getLogger(OrderProducer.class.getSimpleName());
+  private final CustomLogger log;
+  @Qualifier("orderTemplate")
   private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
-  public OrderProducer(KafkaTemplate<String, OrderEvent> kafkaTemplate) {
+  public OrderProducer(CustomLogger log, KafkaTemplate<String, OrderEvent> kafkaTemplate) {
+    this.log = log;
     this.kafkaTemplate = kafkaTemplate;
   }
 
@@ -27,7 +31,7 @@ public class OrderProducer {
    * @param entity the order entity
    */
   public void send(String topic, OrderEntity entity) {
-    log.info("SENDING EVENT {} to topic {}", entity.getId(), topic);
+    log.info(String.format("SENDING EVENT %s to topic %s", entity.getId(), topic), OrderProducer.class.getSimpleName());
     var orderEvent = OrderEvent.newBuilder()
         .setId(entity.getId())
         .setCreatedAt(entity.getCreatedAt())

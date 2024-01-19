@@ -8,6 +8,16 @@ option java_multiple_files = true;
 
 service OrderManagementService {
   rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (OrderResponse) {}
+  rpc GetManyOrders(GetManyOrdersRequest) returns (ListOrderResponses) {}
+  rpc GetOrder(GetOrderIdRequest) returns (OrderResponse) {}
+}
+
+message GetOrderIdRequest {
+  string orderId = 1;
+}
+
+message GetManyOrdersRequest {
+  repeated string orderIds = 1;
 }
 
 message UpdateOrderStatusRequest {
@@ -29,4 +39,8 @@ message OrderItem {
   string productId = 2;
   string description = 3;
   double cost = 4;
+}
+
+message ListOrderResponses {
+  repeated OrderResponse orders = 1;
 }

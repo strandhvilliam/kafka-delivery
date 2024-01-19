@@ -1,21 +1,17 @@
 package com.strandhvilliam.geolocationhandler.services;
 
-
 import com.strandhvilliam.driveravailability.grpc.DriverServiceGrpc;
 import com.strandhvilliam.driveravailability.grpc.OrderIdRequest;
+import com.strandhvilliam.geolocationhandler.utils.CustomLogger;
 import com.strandhvilliam.geolocevent.proto.Coordinates;
 import com.strandhvilliam.geolocevent.proto.GeoLocEvent;
 import com.strandhvilliam.geolocationhandler.grpc.GeoLocRequest;
 import com.strandhvilliam.geolocationhandler.grpc.GeoLocResponse;
 import com.strandhvilliam.geolocationhandler.grpc.GeoLocServiceGrpc;
 import com.strandhvilliam.geolocationhandler.producers.GeoLocProducer;
-import com.strandhvilliam.geolocevent.proto.Coordinates;
-import com.strandhvilliam.geolocevent.proto.GeoLocEvent;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,32 +21,34 @@ public class GeoLocService extends GeoLocServiceGrpc.GeoLocServiceImplBase {
 
   private static final String DRIVER_AVAILABILITY_CLIENT = "driver-availability";
 
-  private final Logger log = LoggerFactory.getLogger(GeoLocService.class.getSimpleName());
-
+  private final CustomLogger log;
 
   @GrpcClient(DRIVER_AVAILABILITY_CLIENT)
   private DriverServiceGrpc.DriverServiceBlockingStub driverServiceBlockingStub;
 
   private final GeoLocProducer geoLocProducer;
 
-  public GeoLocService(GeoLocProducer geoLocProducer) {
+  public GeoLocService(CustomLogger log, GeoLocProducer geoLocProducer) {
+    this.log = log;
     this.geoLocProducer = geoLocProducer;
   }
 
   /**
    * Receives the geo location of a driver and sends it to the kafka topic
+   * 
    * @param request          geo location request
    * @param responseObserver grpc response observer
    */
   @Override
   public void sendGeoLoc(GeoLocRequest request, StreamObserver<GeoLocResponse> responseObserver) {
-    log.info("Received new geo location for order {}", request.getOrderId());
+    log.info("Received new geo location for order" + request.getOrderId(), GeoLocService.class.getSimpleName());
 
     var orderIdRequest = OrderIdRequest.newBuilder()
         .setOrderId(request.getOrderId())
         .build();
 
-    // TODO: cache the driverdata and orderdata in redis to avoid fetching from db everytime
+    // TODO: cache the driverdata and orderdata in redis to avoid fetching from db
+    // everytime
     var jobData = driverServiceBlockingStub.getJobByOrderId(orderIdRequest);
 
     var response = GeoLocResponse.newBuilder()

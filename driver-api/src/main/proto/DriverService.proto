@@ -9,6 +9,11 @@ option java_multiple_files = true;
 service DriverService {
   rpc GetDriverById (DriverIdRequest) returns (DriverResponse);
   rpc GetDriverByEmail (DriverEmailRequest) returns (DriverResponse);
+  rpc GetJobByOrderId (OrderIdRequest) returns (JobResponse);
+}
+
+message OrderIdRequest {
+  string orderId = 1;
 }
 
 message DriverIdRequest {
