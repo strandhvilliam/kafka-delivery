@@ -7,8 +7,8 @@ interface RootRouteContext {
 
 export const Route = createRootRouteWithContext<RootRouteContext>()({
   component: () => (
-    <>
+    <div className="font-loos">
       <Outlet />
-    </>
+    </div>
   ),
 });

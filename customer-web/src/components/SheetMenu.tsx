@@ -1,15 +1,9 @@
-import {
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  ShoppingCart,
-  Users2,
-} from "lucide-react";
-import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Link } from "@tanstack/react-router";
+import { ChefHat, LogOut, Menu, ShoppingBag, UserCircle } from "lucide-react";
+import { CartBtn } from "./Cart";
+import { Button } from "./ui/button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "./ui/sheet";
+import Logo from "./Logo";
 
 export function SheetMenu({ title }: { title: string }) {
   return (
@@ -25,56 +19,67 @@ export function SheetMenu({ title }: { title: string }) {
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="sm:max-w-xs bg-muted">
-          <nav className="grid gap-6 text-lg font-medium">
-            <Link
-              to="./"
-              className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-            >
-              <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-              <span className="sr-only">Acme Inc</span>
-            </Link>
-            <Link
-              to="./"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <Home className="h-5 w-5" />
-              Dashboard
-            </Link>
-            <Link
-              to="./"
-              className="flex items-center gap-4 px-2.5 text-foreground"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              Orders
-            </Link>
-            <Link
-              to="./"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <Package className="h-5 w-5" />
-              Products
-            </Link>
-            <Link
-              to="./"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <Users2 className="h-5 w-5" />
-              Customers
-            </Link>
-            <Link
-              href="./"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <LineChart className="h-5 w-5" />
-              Settings
-            </Link>
+        <SheetContent
+          side="left"
+          className="flex flex-col justify-between sm:max-w-xs bg-muted"
+        >
+          <nav className="grid gap-6 pt-12 text-lg font-loos font-medium">
+            <Logo className="w-12 h-12 " />
+            <SheetClose asChild>
+              <Link
+                activeProps={{
+                  style: {
+                    color: "var(--color-foreground)",
+                  },
+                }}
+                to="/restaurants"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <ChefHat className="h-5 w-5" />
+                Restaurants
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                activeProps={{
+                  style: {
+                    color: "var(--color-foreground)",
+                  },
+                }}
+                to="/orders"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground"
+              >
+                <ShoppingBag className="h-5 w-5" />
+                Orders
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                activeProps={{
+                  style: {
+                    color: "var(--color-foreground)",
+                  },
+                }}
+                to="/account"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <UserCircle className="h-5 w-5" />
+                Account
+              </Link>
+            </SheetClose>
           </nav>
+          <Button className="font-bold w-full flex gap-4">
+            Log out
+            <LogOut className="h-5 w-5" />
+          </Button>
         </SheetContent>
       </Sheet>
-      <div className="relative flex justify-center flex-1 md:grow-0">
-        <h1 className="text-3xl font-semibold text-foreground">{title}</h1>
+      <div className="relative items-center  flex justify-center flex-1 md:grow-0">
+        <h1 className="font-eloquent text-3xl font-semibold pt-2 text-foreground">
+          {title}
+        </h1>
       </div>
+      <CartBtn className="absolute right-1" />
     </header>
   );
 }

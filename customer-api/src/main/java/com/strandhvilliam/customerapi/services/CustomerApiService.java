@@ -1,6 +1,5 @@
 package com.strandhvilliam.customerapi.services;
 
-
 import com.strandhvilliam.customerapi.models.OrderDto;
 import com.strandhvilliam.customerapi.utils.CustomLogger;
 import com.strandhvilliam.geolocevent.proto.GeoLocEvent;
@@ -37,13 +36,15 @@ public class CustomerApiService {
   public void emitOrderEvent(String customerId, OrderEvent orderEvent, String topic) {
     String type = "order-event";
     var emitter = orderEmitters.get(customerId);
-    String json = "{ \"event\":\"" + type + "\",\"id\":\"" + orderEvent.getId() + "\",\"customerId\":\"" + orderEvent.getCustomerId() + "\",\"status\":\"" + orderEvent.getStatus() + "\"}";
+    String json = "{ \"event\":\"" + type + "\",\"id\":\"" + orderEvent.getId() + "\",\"customerId\":\""
+        + orderEvent.getCustomerId() + "\",\"status\":\"" + orderEvent.getStatus() + "\"}";
     log.info("Trying to send event to customer: " + customerId, CustomerApiService.class.getSimpleName());
     log.info("Trying to send event to emitter: " + emitter, CustomerApiService.class.getSimpleName());
     if (emitter != null) {
       try {
         emitter.send(json);
-        log.info("Sent event to customer: " + customerId + " with topic: " + topic, CustomerApiService.class.getSimpleName());
+        log.info("Sent event to customer: " + customerId + " with topic: " + topic,
+            CustomerApiService.class.getSimpleName());
       } catch (Exception e) {
         orderEmitters.remove(customerId);
       }
@@ -52,9 +53,12 @@ public class CustomerApiService {
 
   public void emitGeoLocEvent(String customerId, GeoLocEvent geoLocEvent) {
     String type = "geo-event";
-    log.info("Trying to send geo location event to customer: " + geoLocEvent.getCustomerId(), CustomerApiService.class.getSimpleName());
+    log.info("Trying to send geo location event to customer: " + geoLocEvent.getCustomerId(),
+        CustomerApiService.class.getSimpleName());
     var emitter = geoLocEmitters.get(customerId);
-    String json = "{\"event\":\"" + type +  "\",\"latitude\":" + geoLocEvent.getCoordinates().getLatitude() + ",\"longitude\":" + geoLocEvent.getCoordinates().getLongitude() + ",\"distance\":" + geoLocEvent.getDistance() + "}";
+    String json = "{\"event\":\"" + type + "\",\"latitude\":" + geoLocEvent.getCoordinates().getLatitude()
+        + ",\"longitude\":" + geoLocEvent.getCoordinates().getLongitude() + ",\"distance\":" + geoLocEvent.getDistance()
+        + "}";
     log.info("Trying to send geo location event to customer: " + customerId, CustomerApiService.class.getSimpleName());
     log.info("Trying to send geo location event to emitter: " + emitter, CustomerApiService.class.getSimpleName());
     if (emitter != null) {
@@ -104,7 +108,8 @@ public class CustomerApiService {
     return response.getOrdersList().stream()
         .map(res -> {
           log.info("Order id: " + res.getId(), CustomerApiService.class.getSimpleName());
-          return "{ \"id\":\"" + res.getId() + "\",\"customerId\":\"" + res.getCustomerId() + "\",\"status\":\"" + res.getStatus() + "\"}";
+          return "{ \"id\":\"" + res.getId() + "\",\"customerId\":\"" + res.getCustomerId() + "\",\"status\":\""
+              + res.getStatus() + "\"}";
         })
         .toList();
   }

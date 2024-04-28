@@ -21,15 +21,15 @@ function AccountPage() {
           <div className="flex gap-6 py-8">
             <Card className="flex rounded-2xl py-8 items-center justify-center flex-col gap-2 w-full">
               <Heart className="h-8 w-8 text-primary" />
-              <h1 className="text-lg font-semibold">Favorites</h1>
+              <h1 className="text-lg">Favorites</h1>
             </Card>
             <Card className="flex rounded-2xl py-8 items-center justify-center flex-col gap-2 w-full">
               <ShoppingBag className="h-8 w-8 text-primary" />
-              <h1 className="text-lg font-semibold">History</h1>
+              <h1 className="text-lg">History</h1>
             </Card>
           </div>
           <Card className="flex flex-col gap-4 p-8  text-stone-800 rounded-2xl">
-            <h3 className="text-xl font-semibold border-b-2 border-stone-800 pb-2 text-stone-800">
+            <h3 className="font-eloquent leading-[1] text-xl font-semibold border-b-2 border-stone-800 pb-2 text-stone-800">
               Name LastName
             </h3>
             <div className="flex gap-2 items-center pb-4 justify-between text-sm border-b-2 border-stone-800">
@@ -51,15 +51,25 @@ function AccountPage() {
               </Button>
             </div>
           </Card>
-          <Accordion type="single" collapsible className="w-full text-sm py-8">
-            <AccordionItem value="support" className="px-4">
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full px-4 text-sm py-8"
+          >
+            <AccordionItem
+              value="support"
+              className="px-4 border-b-2 border-b-stone-800"
+            >
               <AccordionTrigger>Is it accessible?</AccordionTrigger>
               <AccordionContent>
                 Lorem ipsum dolor sit amet, qui minim labore adipisicing minim
                 sint cillum sint consectetur cupidatat.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="terms-of-use" className="px-4">
+            <AccordionItem
+              value="terms-of-use"
+              className="px-4 border-b-2 border-b-stone-800"
+            >
               <AccordionTrigger>Terms of use</AccordionTrigger>
               <AccordionContent>
                 laboris cupidatat officia voluptate. Culpa proident adipisicing
@@ -75,4 +85,3 @@ function AccountPage() {
     </div>
   );
 }
-

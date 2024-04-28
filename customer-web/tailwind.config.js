@@ -16,6 +16,10 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      eloquent: ["eloquent-jf-pro", "serif"],
+      loos: ["loos-normal", "sans-serif"],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -75,4 +79,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-

@@ -13,9 +13,12 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SubImport } from './routes/_sub'
 import { Route as MainImport } from './routes/_main'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as MainRestaurantsImport } from './routes/_main/restaurants'
 import { Route as MainOrdersImport } from './routes/_main/orders'
 import { Route as MainAccountImport } from './routes/_main/account'
+import { Route as AuthSignupImport } from './routes/_auth/signup'
+import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as SubRestaurantSlugImport } from './routes/_sub/restaurant.$slug'
 
 // Create/Update Routes
@@ -27,6 +30,11 @@ const SubRoute = SubImport.update({
 
 const MainRoute = MainImport.update({
   id: '/_main',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -45,6 +53,16 @@ const MainAccountRoute = MainAccountImport.update({
   getParentRoute: () => MainRoute,
 } as any)
 
+const AuthSignupRoute = AuthSignupImport.update({
+  path: '/signup',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthLoginRoute = AuthLoginImport.update({
+  path: '/login',
+  getParentRoute: () => AuthRoute,
+} as any)
+
 const SubRestaurantSlugRoute = SubRestaurantSlugImport.update({
   path: '/restaurant/$slug',
   getParentRoute: () => SubRoute,
@@ -54,6 +72,10 @@ const SubRestaurantSlugRoute = SubRestaurantSlugImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_auth': {
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
     '/_main': {
       preLoaderRoute: typeof MainImport
       parentRoute: typeof rootRoute
@@ -61,6 +83,14 @@ declare module '@tanstack/react-router' {
     '/_sub': {
       preLoaderRoute: typeof SubImport
       parentRoute: typeof rootRoute
+    }
+    '/_auth/login': {
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/signup': {
+      preLoaderRoute: typeof AuthSignupImport
+      parentRoute: typeof AuthImport
     }
     '/_main/account': {
       preLoaderRoute: typeof MainAccountImport
@@ -84,6 +114,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
+  AuthRoute.addChildren([AuthLoginRoute, AuthSignupRoute]),
   MainRoute.addChildren([
     MainAccountRoute,
     MainOrdersRoute,

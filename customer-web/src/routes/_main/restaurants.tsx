@@ -103,8 +103,8 @@ export function RestaurantsPage() {
                   />
                 </CardHeader>
                 <CardContent className="flex justify-between items-end p-0 border-b-2 pt-4 px-0 text-sm border-b-stone-800">
-                  <div className="flex flex-col gap-1 pr-2">
-                    <h2 className="text-2xl font-semibold">
+                  <div className="flex flex-col pr-2">
+                    <h2 className="text-2xl font-semibold font-eloquent">
                       {restaurant.name}
                     </h2>
                     <p className="text-muted-foreground text-xs pb-2">
